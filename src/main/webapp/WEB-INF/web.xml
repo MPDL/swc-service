@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CDDL HEADER START The contents of this file are subject to the terms 
+	of the Common Development and Distribution License, Version 1.0 only (the 
+	"License"). You may not use this file except in compliance with the License. 
+	You can obtain a copy of the license at license/ESCIDOC.LICENSE or http://www.escidoc.de/license. 
+	See the License for the specific language governing permissions and limitations 
+	under the License. When distributing Covered Code, include this CDDL HEADER 
+	in each file and include the License file at license/ESCIDOC.LICENSE. If 
+	applicable, add the following below this CDDL HEADER, with the fields enclosed 
+	by brackets "[]" replaced with your own identifying information: Portions 
+	Copyright [yyyy] [name of copyright owner] CDDL HEADER END Copyright 2006-2007 
+	Fachinformationszentrum Karlsruhe Gesellschaft für wissenschaftlich-technische 
+	Information mbH and Max-Planck- Gesellschaft zur Förderung der Wissenschaft 
+	e.V. All rights reserved. Use is subject to license terms. -->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<!-- Servlets -->
+
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+	<servlet>
+        <servlet-name>swc-service</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+<!--         <init-param> -->
+<!-- 			<param-name>com.sun.jersey.config.property.resourceConfigClass</param-name> -->
+<!-- 			<param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value> -->
+<!--         </init-param> -->
+        <init-param>
+          <param-name>com.sun.jersey.config.property.packages</param-name>
+          <param-value>de.mpg.mpdl.api.swc</param-value>
+        </init-param>
+<!-- 		<init-param> -->
+<!-- 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name> -->
+<!-- 			<param-value>true</param-value> -->
+<!-- 		</init-param>         -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+	
+
+
+	<servlet-mapping>
+        <servlet-name>swc-service</servlet-name>
+        <url-pattern>/swc/*</url-pattern>
+    </servlet-mapping>
+
+
+
+
+	<!-- Parameters -->
+
+
+	<session-config>
+		<session-timeout>180</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>Welcome.xhtml</welcome-file>
+	</welcome-file-list>
+
+
+
+</web-app>
