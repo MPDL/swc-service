@@ -64,7 +64,7 @@
 		<session-timeout>180</session-timeout>
 	</session-config>
 	<welcome-file-list>
-		<welcome-file>Welcome.xhtml</welcome-file>
+		<welcome-file>explain.html</welcome-file>
 	</welcome-file-list>
 
 

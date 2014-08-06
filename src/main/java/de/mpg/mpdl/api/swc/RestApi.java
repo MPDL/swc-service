@@ -1,17 +1,9 @@
 package de.mpg.mpdl.api.swc;
 
-import com.sun.jersey.core.header.ContentDisposition;
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataBodyPart;
-import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.FormDataParam;
 import com.sun.jersey.spi.resource.Singleton;
-import de.mpg.mpdl.api.swc.process.RestProcessGeneric;
+import de.mpg.mpdl.api.swc.process.RestProcessUtils;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,41 +11,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.*;
-import java.util.Iterator;
-import java.util.List;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Singleton
 @Path("/")
 public class RestApi implements Pathes {
 
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestApi.class);
-
-    private static final String SERVER_UPLOAD_LOCATION_FOLDER = "/home/vlad/Desktop/upload/";
-
-    private static final String SUCCESS_RESPONSE = "Successful";
-    private static final String FAILED_RESPONSE = "Failed";
-
-
 
     @GET
     @Path(Pathes.PATH_HELLO_WORLD)
 	@Produces(MediaType.TEXT_HTML)
 	public Response getHelloWorld() {
-        return RestProcessGeneric.hallo();
+        return RestProcessUtils.buildHtmlResponse("Hello World!");
     }
 
     /**
      * The static explain
-     * will be resolved by UrlRewriteRule
+     * is resolved by UrlRewriteRule
 
 	@GET @Path(Pathes.PATH_EXPLAIN)
 	@Produces(MediaType.TEXT_HTML)
 	public Response getExplain() {
-        return RestProcessGeneric.getExplain();
+        return RestProcessUtils.getExplain();
     }
     */
 
@@ -61,68 +45,83 @@ public class RestApi implements Pathes {
     @Path(Pathes.PATH_VIEW)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.TEXT_HTML)
-	public Response getView(
+	public Response getViewFromFiles(
         @Context HttpServletRequest request
     ) {
+        Status status = Status.OK;
+        String htmlStr;
 
-        String responseStatus = SUCCESS_RESPONSE;
-
-
-        if (ServletFileUpload.isMultipartContent(request))
-        {
-            final FileItemFactory factory = new DiskFileItemFactory();
-            final ServletFileUpload fileUpload = new ServletFileUpload(factory);
-            try
-            {
-                /*
-                 * parseRequest returns a list of FileItem
-                 * but in old (pre-java5) style
-                 */
-                final List items = fileUpload.parseRequest(request);
-
-                if (items != null)
-                {
-                    final Iterator iter = items.iterator();
-                    while (iter.hasNext())
-                    {
-                        final FileItem item = (FileItem) iter.next();
-                        final String itemName = item.getName();
-
-                        final File savedFile = new File(SERVER_UPLOAD_LOCATION_FOLDER + File.separator
-                                + itemName);
-                        LOGGER.info("Saving the file: " + savedFile.getName());
-                        item.write(savedFile);
-
-                    }
-                }
-            }
-            catch (FileUploadException fue)
-            {
-                responseStatus = FAILED_RESPONSE;
-                fue.printStackTrace();
-            }
-            catch (Exception e)
-            {
-                responseStatus = FAILED_RESPONSE;
-                e.printStackTrace();
-            }
+        try {
+            htmlStr = RestProcessUtils.generateHtmlRepresentationFromFiles(request);
+        } catch (Exception e) {
+            status = Status.INTERNAL_SERVER_ERROR;
+            htmlStr = "<html><body><h1>Something wrong by SWC rendering:</h1>" +
+                   "<p>" +
+                    Arrays.toString(e.getStackTrace()) +
+                   "</p>" +
+             "</body></html>";
         }
-
-
-        /*RestProcessGeneric.uploadFile(fileInputStream, filePath);
-
-        String output = "File saved to server location : " + filePath;
-*/
-
-        return Response.status(200).entity(responseStatus).build();
-
+        return RestProcessUtils.buildHtmlResponse(htmlStr, status);
 	}
 
-	@GET
+    @POST
+    @Path(Pathes.PATH_VIEW)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    public Response getViewFromTextarea(
+            @FormParam("swc") String swc
+    ) {
+        String htmlStr = RestProcessUtils.generateHtmlRepresentation(swc);
+        return RestProcessUtils.buildHtmlResponse(htmlStr);
+    }
+
+    @GET
+    @Path(Pathes.PATH_VIEW)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    public Response getViewFromUrl(
+            @QueryParam("url") String url
+    ) {
+        String htmlStr = "<html><body><h1>Rendered SWC</h1></body></html>";
+        LOGGER.info(".swc url: " + url);
+        //TODO: url resolution to be implemented!!!
+        return RestProcessUtils.buildHtmlResponse(htmlStr);
+    }
+
+
+
+    //TODO: to be impelemented!!!
+    @POST
     @Path(Pathes.PATH_THUMB)
-	@Produces("image/png")
-	public Response getThumbnail() {
-		return null;
-	}
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces("image/png")
+    public Response getThumbnail(
+            @Context HttpServletRequest request
+    ) {
+        Status status = Status.OK;
+        String htmlStr = "<html><body><h1>Rendered SWC</h1></body></html>";
+
+        try {
+            List<FileItem> fileItems = RestProcessUtils.uploadFiles(request);
+            LOGGER.info("files uploaded...");
+
+            //here is the call of external service,
+            //if success: filled
+            // responseHtml = getSwcThumbnailRepresentation(fileItems);
+
+        } catch (FileUploadException e) {
+            status = Status.INTERNAL_SERVER_ERROR;
+            htmlStr = "<html><body><h1>Something wrong by SWC rendering:</h1>" +
+                    "<p>" +
+                    Arrays.toString(e.getStackTrace()) +
+                    "</p>" +
+                    "</body></html>";
+
+        }
+        //TODO: entity is a png picture
+        return RestProcessUtils.buildHtmlResponse(htmlStr, status);
+
+    }
+
 
 }

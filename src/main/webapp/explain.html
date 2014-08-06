@@ -19,5 +19,31 @@
     <input type="submit" value="Upload It" />
 </form>
 
+<h1>or put .swc here:</h1>
+
+<form action="/api/swc/view" method="post">
+
+    <p>
+        <textarea name="swc" cols="40" rows="10" maxlength="10240000"></textarea>
+    </p>
+
+    <input type="submit" value="Submit" />
+
+</form>
+
+<h1>or put url to .swc here:</h1>
+
+<form action="/api/swc/view" method="get">
+
+    <p>
+        <input name="url" id="url" type="text" size="40" />
+    </p>
+
+    <input type="submit" value="Submit" />
+
+</form>
+
+
+
 </body>
 </html>
