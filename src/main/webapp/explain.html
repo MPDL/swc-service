@@ -7,7 +7,7 @@
 <body>
 <h1>Upload a File</h1>
 
-<form action="/api/swc/view" method="post" enctype="multipart/form-data">
+<form action="/swc/api/view" method="post" enctype="multipart/form-data">
 
     <p>
         Select a file1 : <input type="file" name="file1" size="50" />
@@ -16,34 +16,34 @@
         Select a file2 : <input type="file" name="file2" size="50" />
     </p>
 
-    <input type="submit" value="Upload It" />
+    <input type="submit" value="View in 3D" />
+    <input type="submit" value="Generate Thumbnail" formaction="/swc/api/thumb" formmethod="post"/>
 </form>
 
 <h1>or put .swc here:</h1>
 
-<form action="/api/swc/view" method="post">
+<form action="/swc/api/view" method="post">
 
     <p>
         <textarea name="swc" cols="40" rows="10" maxlength="10240000"></textarea>
     </p>
 
-    <input type="submit" value="Submit" />
+    <input type="submit" value="View in 3D" />
+    <input type="submit" value="Generate Thumbnail" formaction="/swc/api/thumb" formmethod="post"/>
 
 </form>
 
 <h1>or put url to .swc here:</h1>
 
-<form action="/api/swc/view" method="get">
+<form action="/swc/api/view" method="get">
 
     <p>
         <input name="url" id="url" type="text" size="40" />
     </p>
 
-    <input type="submit" value="Submit" />
-
+    <input type="submit" value="View in 3D" />
+    <input type="submit" value="Generate Thumbnail" formaction="/swc/api/thumb" formmethod="get"/>
 </form>
-
-
 
 </body>
 </html>
