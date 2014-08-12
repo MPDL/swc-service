@@ -16,9 +16,13 @@
         Select a file2 : <input type="file" name="file2" size="50" />
     </p>
 
+    <input type="hidden" name="portable" value="false"/>
+
     <input type="submit" value="View in 3D" />
-    <input type="submit" value="Generate Thumbnail" formaction="/swc/api/thumb" formmethod="post"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form); submit();"/>
+    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb'; submit();"/>
 </form>
+
 
 <h1>or put .swc here:</h1>
 
@@ -28,8 +32,11 @@
         <textarea name="swc" cols="40" rows="10" maxlength="10240000"></textarea>
     </p>
 
+    <input type="hidden" name="portable" value="false"/>
+
     <input type="submit" value="View in 3D" />
-    <input type="submit" value="Generate Thumbnail" formaction="/swc/api/thumb" formmethod="post"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form); submit();"/>
+    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb'; submit();"/>
 
 </form>
 
@@ -41,9 +48,21 @@
         <input name="url" id="url" type="text" size="40" />
     </p>
 
+    <input type="hidden" name="portable" value="false"/>
+
     <input type="submit" value="View in 3D" />
-    <input type="submit" value="Generate Thumbnail" formaction="/swc/api/thumb" formmethod="get"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form); submit();"/>
+    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb'; submit();"/>
 </form>
+
+<script type="text/javascript">
+    function setPortable(form) {
+        var field = form.elements.portable;
+        if (field) {
+            field.value = "true";
+        }
+    }
+</script>
 
 </body>
 </html>
