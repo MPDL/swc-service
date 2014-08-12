@@ -613,14 +613,14 @@ function swc_parser(swc_file) {
 	var swc_ar = swc_file.split("\n");
 	var swc_json = {};
 
-	var float = '-?\\d*(?:\\.\\d+)?';
+	var _float = '-?\\d*(?:\\.\\d+)?';
 	var pattern = new RegExp('^[ \\t]*(' + [
 		'\\d+',   // index
 		'\\d+',  // type
-		float,    // x
-		float,    // y
-		float,    // z
-		float,    // radius
+		_float,    // x
+		_float,    // y
+		_float,    // z
+		_float,    // radius
 		'-1|\\d+' // parent
 	].join(')[ \\t]+(') + ')[ \\t]*$');
 
