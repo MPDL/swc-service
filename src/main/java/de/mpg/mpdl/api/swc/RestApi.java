@@ -51,6 +51,10 @@ public class RestApi {
         return RestProcessUtils.generateViewFromTextarea(swc, portable);
     }
 
+
+    /*
+    * /view{?portable=true}
+    * */
     @GET
     @Path(Pathes.PATH_VIEW)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
