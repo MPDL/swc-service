@@ -2,7 +2,7 @@ swc-service
 ===========
 
 ### Intro
-The REST web service generates visual represenations of SWC files    
+The REST web service generates visual represenations of [SWC files](http://research.mssm.edu/cnic/swc.html)    
 
 
 ### Installation
