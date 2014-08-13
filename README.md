@@ -10,9 +10,10 @@ The web service generate visual represenations of SWC files
 1. Install Maven [download](http://maven.apache.org/download.cgi)
 2. Install Tomcat [download](http://maven.apache.org/download.cgi)
 3. `git clone https://github.com/MPDL/swc-service`
-5. Compile the service: Go into `swc-service directory`, run `mvn clean install`
-6. Copy `swc.war` in Tomcat `webapp` directory
-7. Create File `swc-service.properties` and add following parameters 
+4. Compile the service: go into `swc-service directory`, run `mvn clean install`
+5. Copy `swc.war` in Tomcat `webapp` directory
+6. Create File `swc-service.properties` and add following properties in it
+`screenshot.service.url = `base_url_to_screenshot_service/html-screenshot`
 8. 
 9. 
 10. and put it into Tomcat `conf` directory
