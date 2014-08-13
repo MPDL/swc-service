@@ -106,7 +106,7 @@ public class RestProcessUtils {
         try {
             //screenshot service connection
             screenshotConn = URI
-                    .create(config.getScreenshotServiceUrl()).toURL()
+                    .create(config.getScreenshotServiceUrl() + "?useFirefox=true").toURL()
                     .openConnection();
             screenshotConn.setDoOutput(true);
 
