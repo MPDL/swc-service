@@ -29,14 +29,16 @@ Following REST commands are implemented:
 - **Method**: POST
 - **Media type**: multipart/form-data
 - **Input fields**: 
-  - name1: file1
-  - type1: file
-  - value1: locally selected SWC file
-  - name2: portable
-  - type2: text
-  - value2: true|false
-Response:
-Delivers HTML view representation of the SWC file
+  - field 1:
+    - **name**: file1
+    - **type**: file
+    - **value**: locally selected SWC file
+  - field 2:
+    - **name**: portable
+    - **type**: text
+    - **value**: true|false
+- **Response**:
+Delivers HTML view representation of the SWC file. `portable="true"` inserts all JSs directly in the html output.
  
 
 
