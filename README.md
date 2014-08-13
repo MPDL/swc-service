@@ -2,7 +2,7 @@ swc-service
 ===========
 
 ### Intro
-The web service generate visual represenations of SWC files    
+The REST web service generates visual represenations of SWC files    
 
 
 ### Installation
@@ -22,6 +22,25 @@ The web service generate visual represenations of SWC files
 8. Service runs under `http://localhost:8080/swc`
 
 ### Usage
+
+Following REST commands are implemented:
+- **Method**: POST
+- **Path**: /api/view
+- **Request**: 
+- **Media type**: multipart/form-data
+- **Input fields*: 
+-- name1: file1
+-- type1: file
+-- value1: locally selected SWC file
+-- name2: portable
+-- type2: text
+-- value2: true|false
+Response:
+Delivers HTML view representation of the SWC file
+ 
+
+----------------------
+
 The magick service implemtents the method `GET` and `POST`. The parameters are:
 - **url** (Mandotory for `GET`): the url of the file to be transformed
 - **size**: As defined by imagemagick [resize](http://www.imagemagick.org/script/command-line-options.php#resize)
