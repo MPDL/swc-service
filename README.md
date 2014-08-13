@@ -36,9 +36,41 @@ Following REST commands are implemented:
   - field 2:
     - **name**: portable
     - **type**: text
-    - **value**: true|false
+    - **value**: true|false(default)
 - **Response**:
-Delivers HTML view representation of the SWC file. `portable="true"` inserts all JSs directly in the html output.
+Delivers HTML view representation of the SWC file. 
  
+##### **Path**: /api/view
+- **Method**: POST
+- **Media type**: application/x-www-form-urlencoded
+- **Input fields**: 
+  - field 1:
+    - **name**: swc
+    - **type**: text/texarea
+    - **value**: content of SWC file
+  - field 2:
+    - **name**: portable
+    - **type**: text
+    - **value**: true|false(default)
+- **Response**:
+Delivers HTML view representation of the SWC file. 
 
+##### **Path**: /api/view
+- **Method**: GET
+- **Media type**: application/x-www-form-urlencoded
+- **Input fields**: 
+  - field 1:
+    - **name**: url
+    - **type**: text
+    - **value**: link to the SWC URL
+  - field 2:
+    - **name**: portable
+    - **type**: text
+    - **value**: true|false(default)
+- **Response**:
+Delivers HTML view representation of the SWC file. 
+
+
+
+Setting of `portable="true"` generates html which can be used offline.
 
