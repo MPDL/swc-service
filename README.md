@@ -47,13 +47,13 @@ Delivers HTML view representation of the SWC file.
   - field 1:
     - **name**: swc
     - **type**: text/texarea
-    - **value**: content of SWC file
+    - **value**: SWC text
   - field 2:
     - **name**: portable
     - **type**: text
     - **value**: true|false(default)
 - **Response**:
-Delivers HTML view representation of the SWC file. 
+Delivers HTML view representation of the SWC text. 
 
 ##### **Path**: /api/view
 - **Method**: GET
@@ -68,9 +68,43 @@ Delivers HTML view representation of the SWC file.
     - **type**: text
     - **value**: true|false(default)
 - **Response**:
-Delivers HTML view representation of the SWC file. 
+returns HTML view representation of the SWC text referenced by the URL. 
+
+**Note:** Setting of `portable="true"` generates html which can be used offline.
+
+##### **Path**: /api/thumb
+- **Method**: POST
+- **Media type**: multipart/form-data
+- **Input fields**: 
+  - field:
+    - **name**: file1
+    - **type**: file
+    - **value**: locally selected SWC file
+- **Response**:
+returns PNG screenshot of the rendered SWC file. 
+ 
+##### **Path**: /api/thumb
+- **Method**: POST
+- **Media type**: application/x-www-form-urlencoded
+- **Input fields**: 
+  - field:
+    - **name**: swc
+    - **type**: text/texarea
+    - **value**: SWC text
+- **Response**:
+returns PNG screenshot of the rendered SWC text
 
 
+##### **Path**: /api/thumb
+- **Method**: GET
+- **Media type**: application/x-www-form-urlencoded
+- **Input fields**: 
+  - field:
+    - **name**: url
+    - **type**: text
+    - **value**: link to the SWC text 
+- **Response**:
+returns PNG screenshot of the renederd SWC text referenced by the URL. 
 
-Setting of `portable="true"` generates html which can be used offline.
 
+You can check `http://localhost:8080/swc/api/explain` page for swc-service usage examples.   
