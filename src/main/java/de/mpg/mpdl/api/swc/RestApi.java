@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 
@@ -61,9 +62,9 @@ public class RestApi {
     @Produces(MediaType.TEXT_HTML)
     public Response getViewFromUrl(
             @QueryParam("url") String url,
-            @DefaultValue("false") @FormParam("portable") boolean portable
+            @DefaultValue("false") @QueryParam("portable") boolean portable
     ) throws IOException {
-        return RestProcessUtils.generateViewFromUrl(url, portable);
+          return RestProcessUtils.generateViewFromUrl(url, portable);
     }
 
 

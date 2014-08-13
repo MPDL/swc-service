@@ -7,7 +7,7 @@
 <body>
 <h1>Upload a File</h1>
 
-<form action="/swc/api/view" method="post" enctype="multipart/form-data">
+<form action="/swc/api/view" method="post" enctype="multipart/form-data" onsubmit="return checkFiles(this);">
 
     <p>
         Select a file1 : <input type="file" name="file1" size="50" />
@@ -19,14 +19,14 @@
     <input type="hidden" name="portable" value="false"/>
 
     <input type="submit" value="View in 3D" />
-    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form); submit();"/>
-    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb'; submit();"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
+    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
 </form>
 
 
 <h1>or put .swc here:</h1>
 
-<form action="/swc/api/view" method="post">
+<form action="/swc/api/view" method="post" onsubmit="return checkTextarea(this);">
 
     <p>
         <textarea name="swc" cols="40" rows="10" maxlength="10240000"></textarea>
@@ -35,14 +35,14 @@
     <input type="hidden" name="portable" value="false"/>
 
     <input type="submit" value="View in 3D" />
-    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form); submit();"/>
-    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb'; submit();"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
+    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
 
 </form>
 
 <h1>or put url to .swc here:</h1>
 
-<form action="/swc/api/view" method="get">
+<form action="/swc/api/view" method="get" onsubmit="return checkUrl(this);">
 
     <p>
         <input name="url" id="url" type="text" size="40" />
@@ -51,8 +51,8 @@
     <input type="hidden" name="portable" value="false"/>
 
     <input type="submit" value="View in 3D" />
-    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form); submit();"/>
-    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb'; submit();"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
+    <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
 </form>
 
 <script type="text/javascript">
@@ -60,6 +60,35 @@
         var field = form.elements.portable;
         if (field) {
             field.value = "true";
+        }
+    }
+
+    function checkFiles(form) {
+        if (form.elements.file1.value || form.elements.file2.value) {
+            return true;
+        } else {
+            alert("Please choose any .swc file!");
+            return false;
+        }
+    }
+
+    function checkTextarea(form) {
+        var text = form.elements.swc;
+        if (text.value && text.value != '' ) {
+            return true;
+        } else {
+            alert("Please put .swc text!");
+            return false;
+        }
+    }
+
+    function checkUrl(form) {
+        var url = form.elements.url;
+        if (url.value && url.value != '' ) {
+            return true;
+        } else {
+            alert("Please input URL to .swc!");
+            return false;
         }
     }
 </script>

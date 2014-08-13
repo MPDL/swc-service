@@ -42,7 +42,7 @@
         </init-param>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>de.mpg.mpdl.api.swc.MyAgitpplication</param-value>
+            <param-value>de.mpg.mpdl.api.swc.MyApplication</param-value>
         </init-param>
 <!-- 		<init-param> -->
 <!-- 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name> -->

@@ -29,7 +29,8 @@ public class RestProcessUtils {
 
 	private static final String JAVAX_SERVLET_CONTEXT_TEMPDIR = "javax.servlet.context.tempdir";
 	private static final String SWC_VIEW_HTML_TEMPLATE_FILE_NAME = "swc_view_template.html";
-	private static final String SWC_VIEW_PORTABLE_HTML_TEMPLATE_FILE_NAME = "swc_view_template-portable.html";
+	private static final String JS_LIBS_LINKED_FILE_NAME = "js-linked.html";
+	private static final String JS_LIBS_PORTABLE_FILE_NAME = "js-portable.html";
 	private static final ServiceConfiguration config = new ServiceConfiguration();
 
 
@@ -142,9 +143,11 @@ public class RestProcessUtils {
     }
 
 	public static String generateResponseHtml(String swc, boolean portable) throws IOException {
-		String swcHtmlTemplate = getResourceAsString(
-            portable ? SWC_VIEW_PORTABLE_HTML_TEMPLATE_FILE_NAME : SWC_VIEW_HTML_TEMPLATE_FILE_NAME
+        String jsLibs = getResourceAsString(
+                portable ? JS_LIBS_PORTABLE_FILE_NAME : JS_LIBS_LINKED_FILE_NAME
         );
+		String swcHtmlTemplate = getResourceAsString(SWC_VIEW_HTML_TEMPLATE_FILE_NAME)
+                .replace("%JS_LIBS_PLACEHOLDER%", jsLibs);
 		return swcHtmlTemplate.replace("%SWC_CONTENT_PLACEHOLDER%", swc)
 		    .replace("%SWC_SERVICE_PLACEHOLDER%", config.getServiceUrl()
         );

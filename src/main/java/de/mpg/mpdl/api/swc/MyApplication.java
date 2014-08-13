@@ -1,5 +1,6 @@
 package de.mpg.mpdl.api.swc;
 
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.ws.rs.core.Application;
@@ -17,7 +18,7 @@ public class MyApplication extends Application {
         // register resources and features
         classes.add(MultiPartFeature.class);
         classes.add(RestApi.class);
-        //classes.add(LoggingFilter.class);
+        classes.add(LoggingFilter.class);
         return classes;
     }
 }
