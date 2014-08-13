@@ -13,14 +13,13 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.io.*;
 import java.net.URI;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class RestProcessUtils {
@@ -30,13 +29,14 @@ public class RestProcessUtils {
 
 	private static final String JAVAX_SERVLET_CONTEXT_TEMPDIR = "javax.servlet.context.tempdir";
 	private static final String SWC_VIEW_HTML_TEMPLATE_FILE_NAME = "swc_view_template.html";
+	private static final String SWC_VIEW_THUMB_HTML_TEMPLATE_FILE_NAME = "swc_view_template_thumb.html";
 	private static final String JS_LIBS_LINKED_FILE_NAME = "js-linked.html";
 	private static final String JS_LIBS_PORTABLE_FILE_NAME = "js-portable.html";
 	private static final ServiceConfiguration config = new ServiceConfiguration();
 
 
     public static Response generateViewFromTextarea(String swc, boolean portable) throws IOException {
-        return buildHtmlResponse(generateResponseHtml(swc, portable));
+        return buildHtmlResponse(generateResponseHtml(swc, portable, false));
     }
 
     public static Response generateViewFromUrl(String url, boolean portable) throws IOException {
@@ -44,7 +44,7 @@ public class RestProcessUtils {
             .create(url).toURL()
             .openConnection();
         return  buildHtmlResponse(
-            generateResponseHtml(getInputStreamAsString(swcSourceConnection.getInputStream()), portable)
+            generateResponseHtml(getInputStreamAsString(swcSourceConnection.getInputStream()), portable, false)
         );
     }
 
@@ -57,7 +57,7 @@ public class RestProcessUtils {
             HttpServletRequest request) throws FileUploadException, IOException {
 		List<FileItem> fileItems = uploadFiles(request);
 		LOGGER.info("files uploaded...");
-        return generateResponseHtml(getInputStreamAsString(getFirstFileItem(fileItems).getInputStream()), isPortable(fileItems));
+        return generateResponseHtml(getInputStreamAsString(getFirstFileItem(fileItems).getInputStream()), isPortable(fileItems), false);
 	}
 
 
@@ -95,33 +95,36 @@ public class RestProcessUtils {
 
     }
 
+    public static Response generateThumbnailFromTextarea(String swc) throws IOException {
+        //get swc from String
+        return generateThumbnail(new ByteArrayInputStream(swc.getBytes(StandardCharsets.UTF_8)));
+    }
+
 
     private static Response generateThumbnail(InputStream inputStream) throws IOException {
-
         Closer closer = Closer.create();
         closer.register(inputStream);
 
         URLConnection screenshotConn = null;
         byte[] bytes = null;
         try {
-            //screenshot service connection
+            // screenshot service connection
+
             screenshotConn = URI
-                    .create(config.getScreenshotServiceUrl() + "?useFirefox=true").toURL()
-                    .openConnection();
+                    .create(config.getScreenshotServiceUrl()
+                            + "?useFireFox=true").toURL().openConnection();
             screenshotConn.setDoOutput(true);
 
-
-            //build response entity directly from .swc inputStream
-            InputStream swcResponseInputStream = closer.register(
-                    new ByteArrayInputStream(
-                            generateResponseHtml(getInputStreamAsString(inputStream), true).getBytes("UTF-8")
-                    )
-           );
-
+            // build response entity directly from .swc inputStream
+            InputStream swcResponseInputStream = closer
+                    .register(new ByteArrayInputStream(generateResponseHtml(
+                            getInputStreamAsString(inputStream), true, true)
+                            .getBytes("UTF-8")));
             ByteStreams.copy(swcResponseInputStream,
                     closer.register(screenshotConn.getOutputStream()));
 
             bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());
+
 
         } catch (Throwable e) {
             throw closer.rethrow(e);
@@ -129,28 +132,22 @@ public class RestProcessUtils {
             closer.close();
         }
 
-
-
         // Return the response of the screenshot service
-        return Response
-                .status(Status.OK)
-                .entity(bytes)
-                .type("image/png").build();
+        return Response.status(Status.OK).entity(bytes).type("image/png")
+                .build();
     }
 
 
-    public static String generateResponseHtml(String swc) throws IOException {
-        return generateResponseHtml(swc, false);
-    }
-
-	public static String generateResponseHtml(String swc, boolean portable) throws IOException {
+	public static String generateResponseHtml(String swc, boolean portable, boolean thumb) throws IOException {
         //get js libs block
         String chunk = getResourceAsString(
                 portable ? JS_LIBS_PORTABLE_FILE_NAME : JS_LIBS_LINKED_FILE_NAME
         );
         //insert js libs block
-		chunk = getResourceAsString(SWC_VIEW_HTML_TEMPLATE_FILE_NAME)
-                .replace("%JS_LIBS_PLACEHOLDER%", chunk);
+		chunk = getResourceAsString(
+                thumb ? SWC_VIEW_THUMB_HTML_TEMPLATE_FILE_NAME : SWC_VIEW_HTML_TEMPLATE_FILE_NAME
+        )
+        .replace("%JS_LIBS_PLACEHOLDER%", chunk);
         //repalce other placeholders
 		return chunk.replace("%SWC_CONTENT_PLACEHOLDER%", swc)
 		    .replace("%SWC_SERVICE_PLACEHOLDER%", config.getServiceUrl()

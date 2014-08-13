@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+%JS_LIBS_PLACEHOLDER%
+    <script id="swc" type='text/plain'>
+%SWC_CONTENT_PLACEHOLDER%
+    </script>
+</head>
+<body>
+    <div id="container"></div>
+    <!-- info on screen display -->
+    <script type='text/javascript'>
+        window.onload = function(){
+            var swc = swc_parser(document.getElementById("swc").text);
+            var s = new SharkViewer({swc: swc, dom_element: 'container',  center_node: -1, show_stats:false, screenshot: true});
+            s.init();
+            s.animate();
+        }
+    </script>
+</body>
+</html>

@@ -68,7 +68,19 @@ public class RestApi {
     }
 
 
-	@POST
+
+    @POST
+	@Path(Pathes.PATH_THUMB)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces("image/png")
+	public Response getThumbnailFromTextarea(
+            @FormParam("swc") String swc
+    ) throws IOException {
+        return RestProcessUtils.generateThumbnailFromTextarea(swc);
+	}
+
+
+    @POST
 	@Path(Pathes.PATH_THUMB)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces("image/png")
