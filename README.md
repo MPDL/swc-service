@@ -12,14 +12,14 @@ The web service generate visual represenations of SWC files
 3. `git clone https://github.com/MPDL/swc-service`
 4. Compile the service: go into `swc-service directory`, run `mvn clean install`
 5. Copy `swc.war` in Tomcat `webapp` directory
-6. Create File `swc-service.properties` and add following properties in it
-`screenshot.service.url = `base_url_to_screenshot_service/html-screenshot`
-8. 
-9. 
-10. and put it into Tomcat `conf` directory
-8. Edit `magick.properties` with Property `imagemagick.convert.bin = /path/to/convert` (for instance `/usr/bin/convert`)
-9. Start Tomcat
-10. Service runs under `http://localhost:8080/magick`
+6. Create file `swc-service.properties`, add following property in it
+
+> `screenshot.service.url = base_url_to_screenshot_service/html-screenshot`
+
+ and put the file into Tomcat `conf` directory
+
+7. Start Tomcat
+8. Service runs under `http://localhost:8080/swc`
 
 ### Usage
 The magick service implemtents the method `GET` and `POST`. The parameters are:
