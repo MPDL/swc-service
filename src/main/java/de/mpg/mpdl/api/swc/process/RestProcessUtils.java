@@ -13,11 +13,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URLConnection;
 import java.util.List;
@@ -59,6 +60,8 @@ public class RestProcessUtils {
         return generateResponseHtml(getInputStreamAsString(getFirstFileItem(fileItems).getInputStream()), isPortable(fileItems));
 	}
 
+
+
     private static boolean isPortable(List<FileItem> fileItems) {
         for (FileItem fileItem: fileItems) {
             if (fileItem.isFormField() && "portable".equals(fileItem.getFieldName())  ) {
@@ -98,7 +101,8 @@ public class RestProcessUtils {
         Closer closer = Closer.create();
         closer.register(inputStream);
 
-        URLConnection screenshotConn = null, viewConn = null;
+
+        URLConnection screenshotConn = null;//, viewConn = null;
         byte[] bytes = null;
         try {
             //screenshot service connection
@@ -107,19 +111,15 @@ public class RestProcessUtils {
                     .openConnection();
             screenshotConn.setDoOutput(true);
 
-            //swc service connection
-            viewConn = URI
-                    .create(config.getServiceApiUrl() + ServiceConfiguration.Pathes.PATH_VIEW)
-                    .toURL().openConnection();
-            viewConn.setDoOutput(true);
-            viewConn.setRequestProperty("Content-Type",
-                    MediaType.APPLICATION_OCTET_STREAM);
 
-            // Send the content of the item to 3D view swc service
-            ByteStreams.copy(inputStream, closer.register(viewConn.getOutputStream()));
-            // Send the response of the 3D view swc service to the screenshot
-            // service
-            ByteStreams.copy(closer.register(viewConn.getInputStream()),
+            //build response entity directly from .swc inputStream
+            InputStream swcResponseInputStream = closer.register(
+                    new ByteArrayInputStream(
+                            generateResponseHtml(getInputStreamAsString(inputStream), true).getBytes("UTF-8")
+                    )
+           );
+
+            ByteStreams.copy(swcResponseInputStream,
                     closer.register(screenshotConn.getOutputStream()));
 
             bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());
@@ -129,6 +129,9 @@ public class RestProcessUtils {
         } finally {
             closer.close();
         }
+
+
+
 
         // Return the response of the screenshot service
         return Response
@@ -143,14 +146,17 @@ public class RestProcessUtils {
     }
 
 	public static String generateResponseHtml(String swc, boolean portable) throws IOException {
-        String jsLibs = getResourceAsString(
+        //get js libs block
+        String chunk = getResourceAsString(
                 portable ? JS_LIBS_PORTABLE_FILE_NAME : JS_LIBS_LINKED_FILE_NAME
         );
-		String swcHtmlTemplate = getResourceAsString(SWC_VIEW_HTML_TEMPLATE_FILE_NAME)
-                .replace("%JS_LIBS_PLACEHOLDER%", jsLibs);
-		return swcHtmlTemplate.replace("%SWC_CONTENT_PLACEHOLDER%", swc)
+        //insert js libs block
+		chunk = getResourceAsString(SWC_VIEW_HTML_TEMPLATE_FILE_NAME)
+                .replace("%JS_LIBS_PLACEHOLDER%", chunk);
+        //repalce other placeholders
+		return chunk.replace("%SWC_CONTENT_PLACEHOLDER%", swc)
 		    .replace("%SWC_SERVICE_PLACEHOLDER%", config.getServiceUrl()
-        );
+            );
 	}
 
 
