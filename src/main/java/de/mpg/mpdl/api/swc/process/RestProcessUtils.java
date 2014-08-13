@@ -101,8 +101,7 @@ public class RestProcessUtils {
         Closer closer = Closer.create();
         closer.register(inputStream);
 
-
-        URLConnection screenshotConn = null;//, viewConn = null;
+        URLConnection screenshotConn = null;
         byte[] bytes = null;
         try {
             //screenshot service connection
@@ -129,7 +128,6 @@ public class RestProcessUtils {
         } finally {
             closer.close();
         }
-
 
 
 
@@ -210,10 +208,11 @@ public class RestProcessUtils {
 
     // get only first processed file!
     public static FileItem getFirstFileItem(List<FileItem> fileItems) throws IOException {
+
         for (FileItem fileItem : fileItems) {
             if (fileItem.isFormField()) {
-                LOGGER.info("fileItem.getFieldName():" + fileItem.getFieldName());
-                LOGGER.info("value:" + fileItem.getString());
+                LOGGER.debug("fileItem.getFieldName():" + fileItem.getFieldName());
+                LOGGER.debug("value:" + fileItem.getString());
             }
         }
 
