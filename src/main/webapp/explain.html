@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Form Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>SWC service explain page</title>
 </head>
 <body>
 <h1>Upload a File</h1>
@@ -10,10 +10,7 @@
 <form action="/swc/api/view" method="post" enctype="multipart/form-data" onsubmit="return checkFiles(this);">
 
     <p>
-        Select a file1 : <input type="file" name="file1" size="50" />
-    </p>
-    <p>
-        Select a file2 : <input type="file" name="file2" size="50" />
+        Select a file : <input type="file" name="file1" size="50" />
     </p>
 
     <input type="hidden" name="portable" value="false"/>
@@ -21,6 +18,7 @@
     <input type="submit" value="View in 3D" />
     <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
     <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
+    <input type="reset" value="Reset">
 </form>
 
 
@@ -37,7 +35,7 @@
     <input type="submit" value="View in 3D" />
     <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
     <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
-
+    <input type="reset" value="Reset">
 </form>
 
 <h1>or put url to .swc here:</h1>
@@ -53,6 +51,7 @@
     <input type="submit" value="View in 3D" />
     <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
     <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
+    <input type="reset" value="Reset">
 </form>
 
 <p>
@@ -68,10 +67,10 @@
     }
 
     function checkFiles(form) {
-        if (form.elements.file1.value || form.elements.file2.value) {
+        if (form.elements.file1.value) {
             return true;
         } else {
-            alert("Please choose any .swc file!");
+            alert("Please choose .swc file!");
             return false;
         }
     }
@@ -88,7 +87,7 @@
 
     function checkUrl(form) {
         var url = form.elements.url;
-        if (url.value && url.value != '' ) {
+        if (url.value && url.value.trim() != '' ) {
             return true;
         } else {
             alert("Please input URL to .swc!");
