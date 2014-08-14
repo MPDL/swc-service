@@ -40,6 +40,7 @@ public class RestProcessUtils {
     }
 
     public static Response generateViewFromUrl(String url, boolean portable) throws IOException {
+        //TODO: jersey-client
         URLConnection swcSourceConnection = URI
             .create(url).toURL()
             .openConnection();
@@ -108,18 +109,21 @@ public class RestProcessUtils {
         URLConnection screenshotConn = null;
         byte[] bytes = null;
         try {
+            //TODO: jersey-client
             // screenshot service connection
-
             screenshotConn = URI
                     .create(config.getScreenshotServiceUrl()
                             + "?useFireFox=true").toURL().openConnection();
             screenshotConn.setDoOutput(true);
 
             // build response entity directly from .swc inputStream
+            bytes = generateResponseHtml(
+                    getInputStreamAsString(inputStream), true, true)
+                    .getBytes(StandardCharsets.UTF_8);
+
             InputStream swcResponseInputStream = closer
-                    .register(new ByteArrayInputStream(generateResponseHtml(
-                            getInputStreamAsString(inputStream), true, true)
-                            .getBytes("UTF-8")));
+                    .register(new ByteArrayInputStream(bytes));
+
             ByteStreams.copy(swcResponseInputStream,
                     closer.register(screenshotConn.getOutputStream()));
 
@@ -193,7 +197,7 @@ public class RestProcessUtils {
         closer.register(stream);
         String string = null;
         try {
-            string = CharStreams.toString(new InputStreamReader(stream, "UTF-8"));
+            string = CharStreams.toString(new InputStreamReader(stream, StandardCharsets.UTF_8));
         } catch (Throwable e) {
             closer.rethrow(e);
         } finally {
@@ -206,13 +210,14 @@ public class RestProcessUtils {
     // get only first processed file!
     public static FileItem getFirstFileItem(List<FileItem> fileItems) throws IOException {
 
-        for (FileItem fileItem : fileItems) {
-            if (fileItem.isFormField()) {
-                LOGGER.debug("fileItem.getFieldName():" + fileItem.getFieldName());
-                LOGGER.debug("value:" + fileItem.getString());
+        if (LOGGER.isDebugEnabled()) {
+            for (FileItem fileItem : fileItems) {
+                if (fileItem.isFormField()) {
+                    LOGGER.debug("fileItem.getFieldName():" + fileItem.getFieldName());
+                    LOGGER.debug("value:" + fileItem.getString());
+                }
             }
         }
-
 
         for (FileItem fileItem : fileItems) {
             if (!fileItem.isFormField()) {
