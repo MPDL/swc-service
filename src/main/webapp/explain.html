@@ -12,7 +12,12 @@
     <p>
         Select a file : <input type="file" name="file1" size="50" />
     </p>
-
+    <p>
+		(Only for Analyze) Number of bins: <input type="text" name="numberOfBins" value="10" size="5">
+	</p>
+	 <p>
+		(Only for Analyze) Number of bins <input type="radio" name="typeOfBins" value="number" checked="checked"> or width of bins <input type="radio" name="typeOfBins" value="width">
+	</p>
     <input type="hidden" name="portable" value="false"/>
 
     <input type="submit" value="View in 3D" />
@@ -30,7 +35,13 @@
     <p>
         <textarea name="swc" cols="40" rows="10" maxlength="10240000"></textarea>
     </p>
-
+ 	<p>
+		(Only for Analyze) Number of bins: <input type="text" name="numberOfBins" value="10" size="5">
+	</p>
+	<p>
+		(Only for Analyze) Number of bins <input type="radio" name="typeOfBins" value="number" checked="checked"> or width of bins <input type="radio" name="typeOfBins" value="width">
+	</p>
+	
     <input type="hidden" name="portable" value="false"/>
 
     <input type="submit" value="View in 3D" />
@@ -49,6 +60,13 @@
     </p>
 
     <input type="hidden" name="portable" value="false"/>
+    
+    <p>
+		(Only for Analyze) Number of bins: <input type="text" name="numberOfBins" value="10" size="5">
+	</p>
+	<p>
+		(Only for Analyze) Number of bins <input type="radio" name="typeOfBins" value="number" checked="checked"> or width of bins <input type="radio" name="typeOfBins" value="width">
+	</p>
 
     <input type="submit" value="View in 3D" />
     <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>

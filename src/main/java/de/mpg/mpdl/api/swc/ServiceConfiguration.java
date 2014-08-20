@@ -29,6 +29,12 @@ public class ServiceConfiguration {
 		return "http://localhost:8080/" + SERVICE_NAME;
 	}
 
+	public String getLMeasureBinary() {
+		if (properties.containsKey("lmeasure.bin"))
+			return normalizeServiceUrl((String) properties.get("lmeasure.bin"));
+		return "Lm";
+	}
+
 	private String normalizeServiceUrl(String url) {
 		return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
 	}

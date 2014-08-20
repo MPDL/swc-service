@@ -1,8 +1,10 @@
 package de.mpg.mpdl.api.swc;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.io.ByteStreams;
 
 import de.mpg.mpdl.api.swc.ServiceConfiguration.Pathes;
+import de.mpg.mpdl.api.swc.process.LMeasure;
 import de.mpg.mpdl.api.swc.process.RestProcessUtils;
 
 @Singleton
@@ -107,55 +110,32 @@ public class RestApi {
 	@Path(Pathes.PATH_ANALYZE)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnalizeFromTextarea(@FormParam("swc") String swc)
-			throws IOException {
-		this.getClass().getClassLoader()
-				.getResourceAsStream("DummyAnalyse.json");
-		File f = File.createTempFile("analyze", ".json");
-		ByteStreams.copy(
-				this.getClass().getClassLoader()
-						.getResourceAsStream("DummyAnalyse.json"),
-				new FileOutputStream(f));
-		return Response.status(Status.OK)
-				.entity(FileUtils.readFileToByteArray(f))
-				.type(MediaType.APPLICATION_JSON).build();
+	public Response getAnalyzeFromTextarea(@FormParam("swc") String swc,
+			@FormParam("numberOfBins") String numberOfBins,
+			@FormParam("typeOfBins") String typeOfBins,
+			@FormParam("query") String query) throws IOException {
+		return RestProcessUtils.generateAnalyzeFromTextArea(swc, query, Integer
+				.parseInt(numberOfBins), "width".equals(typeOfBins));
 	}
 
 	@POST
 	@Path(Pathes.PATH_ANALYZE)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnalizeFromFiles(@Context HttpServletRequest request)
+	public Response getAnalyzeFromFiles(@Context HttpServletRequest request)
 			throws IOException, FileUploadException {
-		this.getClass().getClassLoader()
-				.getResourceAsStream("DummyAnalyse.json");
-		File f = File.createTempFile("analyze", ".json");
-		ByteStreams.copy(
-				this.getClass().getClassLoader()
-						.getResourceAsStream("DummyAnalyse.json"),
-				new FileOutputStream(f));
-		return Response.status(Status.OK)
-				.entity(FileUtils.readFileToByteArray(f))
-				.type(MediaType.APPLICATION_JSON).build();
+		return RestProcessUtils.generateAnalyzeFromFiles(request);
 	}
 
 	@GET
 	@Path(Pathes.PATH_ANALYZE)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_HTML)
-	public Response getAnalizeFromUrl(@QueryParam("url") String url,
-			@DefaultValue("false") @QueryParam("portable") boolean portable)
-			throws IOException {
-		this.getClass().getClassLoader()
-				.getResourceAsStream("DummyAnalyse.json");
-		File f = File.createTempFile("analyze", ".json");
-		ByteStreams.copy(
-				this.getClass().getClassLoader()
-						.getResourceAsStream("DummyAnalyse.json"),
-				new FileOutputStream(f));
-		return Response.status(Status.OK)
-				.entity(FileUtils.readFileToByteArray(f))
-				.type(MediaType.APPLICATION_JSON).build();
+	public Response getAnalyzeFromUrl(@QueryParam("url") String url,
+			@QueryParam("numberOfBins") String numberOfBins,
+			@QueryParam("typeOfBins") String typeOfBins,
+			@QueryParam("query") String query) throws IOException {
+		return RestProcessUtils.generateAnalyzeFromUrl(url, query, Integer
+				.parseInt(numberOfBins), "width".equals(typeOfBins));
 	}
-
 }
