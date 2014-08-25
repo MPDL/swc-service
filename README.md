@@ -15,8 +15,8 @@ The REST web service generates visual represenations of [SWC files](http://resea
 6. Copy `swc.war` in Tomcat `webapp` directory
 7. Create file `swc-service.properties`, add following property in it
 ```
-`screenshot.service.url = base_url_to_screenshot_service/html-screenshot`
-`lmeasure.bin = path_to_the_lmeasure_binary`
+screenshot.service.url = base_url_to_screenshot_service/html-screenshot
+lmeasure.bin = path_to_the_lmeasure_binary
 ```
  and put the file into Tomcat `conf` directory
 
