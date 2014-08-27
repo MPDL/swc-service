@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.io.FileUtils;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,13 @@ public class RestApi {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestApi.class);
 
+
+    @GET
+    @Path("hello")
+    public String getHello() {
+        return "Hello World!";
+    }
+
 	/**
 	 * The static explain is resolved by UrlRewriteRule
 	 * 
@@ -51,9 +59,8 @@ public class RestApi {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.TEXT_HTML)
 	public Response getViewFromFiles(@Context HttpServletRequest request
-	// @DefaultValue("false") @FormDataParam("portable") boolean portable
 	) throws IOException, FileUploadException {
-		return RestProcessUtils.generateViewFromFiles(request);
+        return RestProcessUtils.generateViewFromFiles(request);
 	}
 
 	@POST
@@ -76,7 +83,8 @@ public class RestApi {
 	public Response getViewFromUrl(@QueryParam("url") String url,
 			@DefaultValue("false") @QueryParam("portable") boolean portable)
 			throws IOException {
-		return RestProcessUtils.generateViewFromUrl(url, portable);
+        return RestProcessUtils.generateViewFromUrl(url, portable);
+
 	}
 
 	@POST
@@ -130,7 +138,7 @@ public class RestApi {
 	@GET
 	@Path(Pathes.PATH_ANALYZE)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAnalyzeFromUrl(@QueryParam("url") String url,
 			@QueryParam("numberOfBins") String numberOfBins,
 			@QueryParam("typeOfBins") String typeOfBins,

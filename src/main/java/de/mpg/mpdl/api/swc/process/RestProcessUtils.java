@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
 
 import java.io.*;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -192,12 +193,23 @@ public class RestProcessUtils {
 				.type(MediaType.APPLICATION_JSON).build();
 	}
 
-	private static String getResourceAsString(String fileName)
+	public static String getResourceAsString(String fileName)
 			throws IOException {
-		InputStream stream = new RestProcessUtils().getClass().getClassLoader()
-				.getResourceAsStream(fileName);
-		return getInputStreamAsString(stream);
+		return getInputStreamAsString(getResourceAsInputStream(fileName));
 	}
+
+	public static InputStream getResourceAsInputStream(String fileName)
+			throws IOException {
+        return new RestProcessUtils().getClass().getClassLoader()
+				.getResourceAsStream(fileName);
+	}
+
+	public static URL getResourceAsURL(String fileName)
+			throws IOException {
+        return new RestProcessUtils().getClass().getClassLoader()
+				.getResource(fileName);
+	}
+
 
 	private static String getInputStreamAsString(InputStream stream)
 			throws IOException {

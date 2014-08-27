@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import de.mpg.mpdl.api.swc.process.RestProcessUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class ServiceConfiguration {
@@ -53,28 +54,28 @@ public class ServiceConfiguration {
 	 * Load the properties
 	 */
 	private void load() {
-		if (getPropertyFileLocation() != null) {
-			try {
-				properties.load(new FileInputStream(new File(
-						getPropertyFileLocation())));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+
+        String loc = "";
+        try {
+            if (System.getProperty("jboss.server.config.dir") != null) {
+                loc = System.getProperty("jboss.server.config.dir");
+            } else if (System.getProperty("catalina.home") != null) {
+                loc = System.getProperty("catalina.home") + "/conf";
+            } else  {
+
+                //if no app server is defined, take props from WEB-INF
+                //(this is the test case)
+                properties.load(RestProcessUtils.getResourceAsInputStream(PROPERTIES_FILENAME));
+                return;
+            }
+
+            properties.load(new FileInputStream(new File(
+                    FilenameUtils.concat(loc, PROPERTIES_FILENAME))));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 	}
 
-	/**
-	 * Return the location of the property file according to the server
-	 * 
-	 * @return
-	 */
-	private String getPropertyFileLocation() {
-		String loc = "";
-		if (System.getProperty("jboss.server.config.dir") != null) {
-			loc = System.getProperty("jboss.server.config.dir");
-		} else if (System.getProperty("catalina.home") != null) {
-			loc = System.getProperty("catalina.home") + "/conf";
-		}
-		return FilenameUtils.concat(loc, PROPERTIES_FILENAME);
-	}
 }
