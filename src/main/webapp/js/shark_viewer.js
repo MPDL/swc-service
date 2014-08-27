@@ -1,5 +1,5 @@
 var SharkViewer = function (parameters) {
-	/* swc neuron json object:
+	/* de.mpg.mpdl.service.rest.swc neuron json object:
 	*	{ id : {
 	*		type: <type number of node (string)>,
 	*		x: <x position of node (float)>,
@@ -607,7 +607,7 @@ SharkViewer.prototype.ss = function() {
 	window.open(this.renderer.domElement.toDataURL("image/png"), "name-"+Math.random());
 }
 
-//Helper function to turn swc file data into json object
+//Helper function to turn de.mpg.mpdl.service.rest.swc file data into json object
 function swc_parser(swc_file) {
 	//split by lines
 	var swc_ar = swc_file.split("\n");

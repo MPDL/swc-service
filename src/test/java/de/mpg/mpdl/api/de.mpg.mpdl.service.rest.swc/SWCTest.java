@@ -1,7 +1,7 @@
-package de.mpg.mpdl.api.swc;
+package de.mpg.mpdl.service.rest.swc;
 
-import de.mpg.mpdl.api.swc.ServiceConfiguration.Pathes;
-import de.mpg.mpdl.api.swc.process.RestProcessUtils;
+import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
+import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.grizzly2.servlet.GrizzlyWebContainerFactory;
@@ -10,8 +10,6 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.ServletDeploymentContext;
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainer;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
@@ -75,7 +73,7 @@ public class SWCTest extends JerseyTest{
                     public void start() {
                         try {
                             this.server = GrizzlyWebContainerFactory.create(
-                                    baseUri, Collections.singletonMap("jersey.config.server.provider.packages", "de.mpg.mpdl.api.swc")
+                                    baseUri, Collections.singletonMap("jersey.config.server.provider.packages", "de.mpg.mpdl.service.rest.swc")
                             );
                         } catch (ProcessingException e) {
                             throw new TestContainerException(e);
@@ -269,7 +267,7 @@ public class SWCTest extends JerseyTest{
     // HELPERS
     public void testTextarea(Form form, String path, MediaType responseMediaType) throws IOException {
 
-        form.param("swc", SWC_CONTENT);
+        form.param("de.mpg.mpdl.service.rest.swc", SWC_CONTENT);
 
         Response response = target(path)
                 .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
