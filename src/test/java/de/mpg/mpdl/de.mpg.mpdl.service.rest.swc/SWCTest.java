@@ -1,27 +1,17 @@
 package de.mpg.mpdl.service.rest.swc;
 
+import de.mpg.mpdl.service.rest.swc.MyTestContainerFactory;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
 import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.grizzly2.servlet.GrizzlyWebContainerFactory;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.spi.TestContainer;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
@@ -31,7 +21,12 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Collections;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class SWCTest extends JerseyTest{
@@ -49,50 +44,14 @@ public class SWCTest extends JerseyTest{
     }
 
 
-
    @Override
     protected TestContainerFactory getTestContainerFactory() throws TestContainerException {
-
-        return new TestContainerFactory() {
-            @Override
-            public TestContainer create(final URI baseUri, DeploymentContext deploymentContext) throws IllegalArgumentException {
-                return new TestContainer() {
-                    private HttpServer server;
-
-                    @Override
-                    public ClientConfig getClientConfig() {
-                        return null;
-                    }
-
-                    @Override
-                    public URI getBaseUri() {
-                        return baseUri;
-                    }
-
-                    @Override
-                    public void start() {
-                        try {
-                            this.server = GrizzlyWebContainerFactory.create(
-                                    baseUri, Collections.singletonMap("jersey.config.server.provider.packages", "de.mpg.mpdl.service.rest.swc")
-                            );
-                        } catch (ProcessingException e) {
-                            throw new TestContainerException(e);
-                        } catch (IOException e) {
-                            throw new TestContainerException(e);
-                        }
-                    }
-
-                    @Override
-                    public void stop() {
-                        this.server.stop();
-                    }
-                };
-
-            }
-
-        };
+        return new MyTestContainerFactory();
     }
 
+    /**
+     * Initilize tests source file variables
+     * */
     @BeforeClass
     public static void loadSwcFileFromResources() {
 
@@ -113,6 +72,10 @@ public class SWCTest extends JerseyTest{
 
     }
 
+
+    /**
+     * Textarea tests
+     * */
     @Test
     public void testTextareaViewIn3D() throws IOException {
         testTextarea(new Form()
@@ -164,6 +127,9 @@ public class SWCTest extends JerseyTest{
 
     }
 
+    /**
+     * URL tests
+     * */
     @Test
     public void testUrlViewIn3D() throws IOException {
         testUrl(
@@ -212,7 +178,9 @@ public class SWCTest extends JerseyTest{
 
     }
 
-
+    /**
+     * File upload tests
+     * */
     @Test
     public void testFileViewIn3D() throws IOException {
 
@@ -267,7 +235,7 @@ public class SWCTest extends JerseyTest{
     // HELPERS
     public void testTextarea(Form form, String path, MediaType responseMediaType) throws IOException {
 
-        form.param("de.mpg.mpdl.service.rest.swc", SWC_CONTENT);
+        form.param("swc", SWC_CONTENT);
 
         Response response = target(path)
                 .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)

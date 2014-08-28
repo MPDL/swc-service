@@ -30,12 +30,6 @@ public class RestApi {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestApi.class);
 
 
-    @GET
-    @Path("hello")
-    public String getHello() {
-        return "Hello World!";
-    }
-
 	/**
 	 * The static explain is resolved by UrlRewriteRule
 	 * 
@@ -57,7 +51,7 @@ public class RestApi {
 	@Path(Pathes.PATH_VIEW)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_HTML)
-	public Response getViewFromTextarea(@FormParam("de.mpg.mpdl.service.rest.swc") String swc,
+	public Response getViewFromTextarea(@FormParam("swc") String swc,
 			@DefaultValue("false") @FormParam("portable") boolean portable)
 			throws IOException {
 		return RestProcessUtils.generateViewFromTextarea(swc, portable);
@@ -81,7 +75,7 @@ public class RestApi {
 	@Path(Pathes.PATH_THUMB)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces("image/png")
-	public Response getThumbnailFromTextarea(@FormParam("de.mpg.mpdl.service.rest.swc") String swc)
+	public Response getThumbnailFromTextarea(@FormParam("swc") String swc)
 			throws IOException {
 		return RestProcessUtils.generateThumbnailFromTextarea(swc);
 	}
@@ -108,7 +102,7 @@ public class RestApi {
 	@Path(Pathes.PATH_ANALYZE)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnalyzeFromTextarea(@FormParam("de.mpg.mpdl.service.rest.swc") String swc,
+	public Response getAnalyzeFromTextarea(@FormParam("swc") String swc,
 			@FormParam("numberOfBins") String numberOfBins,
 			@FormParam("typeOfBins") String typeOfBins,
 			@FormParam("query") String query) throws IOException {
