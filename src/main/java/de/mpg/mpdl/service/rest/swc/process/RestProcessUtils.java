@@ -4,17 +4,23 @@ import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closer;
 
+import com.sun.deploy.util.SessionState;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.glassfish.jersey.client.ClientResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -124,7 +130,7 @@ public class RestProcessUtils {
 							+ "?useFireFox=true").toURL().openConnection();
 			screenshotConn.setDoOutput(true);
 
-			// build response entity directly from .de.mpg.mpdl.service.rest.swc inputStream
+          	// build response entity directly from .swc inputStream
 			bytes = generateResponseHtml(getInputStreamAsString(inputStream),
 					true, true).getBytes(StandardCharsets.UTF_8);
 
@@ -231,7 +237,7 @@ public class RestProcessUtils {
 			throws IOException {
 		Closer closer = Closer.create();
 		closer.register(stream);
-		File f = File.createTempFile("de.mpg.mpdl.service.rest.swc", ".de.mpg.mpdl.service.rest.swc");
+		File f = File.createTempFile("swc", ".swc");
 		try {
 			ByteStreams.copy(stream, new FileOutputStream(f));
 		} catch (Throwable e) {

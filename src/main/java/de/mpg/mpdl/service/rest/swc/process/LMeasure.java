@@ -41,7 +41,7 @@ public class LMeasure {
 		measureMap = new HashMap<String, String>();
 		try {
 			File output = File.createTempFile("lmeasure", ".txt");
-			query = query == null || query.equals("") ? getDefaultQuery(
+			query = query == null || query.trim().equals("") ? getDefaultQuery(
 					numberOfBins, widthOfBins) : query;
 			Process p = Runtime.getRuntime().exec(
 					LMEASURE_CMD + " " + query + " -s"
@@ -145,13 +145,4 @@ public class LMeasure {
 
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
-		LMeasure lMeasure = new LMeasure();
-		File swcFile = new File(
-				"C:\\Users\\saquet\\Pictures\\de.mpg.mpdl.service.rest.swc\\HB060602_3ptSoma.de.mpg.mpdl.service.rest.swc");
-		String query = "";// "-f0 -f1 -f9";
-		lMeasure.execute(swcFile, query, 0, false);
-		System.out.println(lMeasure.toJSON());
-
-	}
 }

@@ -1,7 +1,7 @@
 package de.mpg.mpdl.service.rest.swc;
 
-import de.mpg.mpdl.service.rest.swc.MyTestContainerFactory;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
+import de.mpg.mpdl.service.rest.swc.process.LMeasure;
 import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -11,7 +11,11 @@ import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
@@ -19,6 +23,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 
@@ -28,8 +33,10 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-
 public class SWCTest extends JerseyTest{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SWCTest.class);
+
 
     final static String SWC_TEST_FILE_NAME = "HB060602_3ptSoma.swc";
     static String SWC_CONTENT = null;
@@ -37,6 +44,7 @@ public class SWCTest extends JerseyTest{
     static FormDataMultiPart SWC_MULTIPART = null;
 
     final static MediaType PNG_MEDIA_TYPE = new MediaType("image", "png");
+
 
     @Override
     protected Application configure() {
@@ -46,19 +54,30 @@ public class SWCTest extends JerseyTest{
 
    @Override
     protected TestContainerFactory getTestContainerFactory() throws TestContainerException {
-        return new MyTestContainerFactory();
+        return new de.mpg.mpdl.service.rest.swc.MyTestContainerFactory();
     }
 
     /**
      * Initilize tests source file variables
      * */
     @BeforeClass
-    public static void loadSwcFileFromResources() {
+    public static void initilizeResources() {
 
+        //ping thumbnail service
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(new ServiceConfiguration().getScreenshotServiceUrl());
+        Response response = target.request(MediaType.TEXT_HTML_TYPE).get();
+        assertEquals("Cannot access screenshot service", 200, response.getStatus());
+        response.close();
+
+
+
+        //initilize all test file-related global variables
         FileDataBodyPart filePart = null;
+        URI uri = null;
         try {
             SWC_CONTENT = RestProcessUtils.getResourceAsString(SWC_TEST_FILE_NAME);
-            final URI uri = RestProcessUtils.getResourceAsURL(SWC_TEST_FILE_NAME).toURI();
+            uri = RestProcessUtils.getResourceAsURL(SWC_TEST_FILE_NAME).toURI();
             SWC_URL = uri.toURL().toString();
             filePart = new FileDataBodyPart("file1", new File(uri));
             SWC_MULTIPART = new FormDataMultiPart();
@@ -70,7 +89,12 @@ public class SWCTest extends JerseyTest{
         assertNotNull("Cannot read SWC content from test resources: " + SWC_TEST_FILE_NAME, SWC_CONTENT);
         assertNotNull("Cannot create multipart body for SWC from test resources: " + SWC_TEST_FILE_NAME, filePart);
 
+        //test L-Measure
+        assertNotNull("Cannot execute L-Measure", new LMeasure().execute(new File(uri), "", 0, false));
+
     }
+
+
 
 
     /**
