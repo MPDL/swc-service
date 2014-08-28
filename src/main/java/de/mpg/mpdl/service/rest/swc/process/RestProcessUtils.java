@@ -4,14 +4,12 @@ import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closer;
 
-import com.sun.deploy.util.SessionState;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.glassfish.jersey.client.ClientResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,11 +121,10 @@ public class RestProcessUtils {
 		URLConnection screenshotConn = null;
 		byte[] bytes = null;
 		try {
-			// TODO: jersey-client
 			// screenshot service connection
 			screenshotConn = URI
 					.create(config.getScreenshotServiceUrl()
-							+ "?useFireFox=true").toURL().openConnection();
+							+ "/take?useFireFox=true").toURL().openConnection();
 			screenshotConn.setDoOutput(true);
 
           	// build response entity directly from .swc inputStream
@@ -137,10 +134,26 @@ public class RestProcessUtils {
 			InputStream swcResponseInputStream = closer
 					.register(new ByteArrayInputStream(bytes));
 
+
 			ByteStreams.copy(swcResponseInputStream,
 					closer.register(screenshotConn.getOutputStream()));
 
-			bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());
+            bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());
+
+            // TODO: jersey-client
+/*
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client
+                    .target(config.getScreenshotServiceUrl())
+                    .path("take")
+                    .queryParam("useFireFox", "true");
+            Response response = target
+                    .request(MediaType.APPLICATION_OCTET_STREAM_TYPE)
+                    .post(Entity.entity(inputStream, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+
+            bytes = ByteStreams.toByteArray(response.readEntity(InputStream.class));
+*/
+
 
 		} catch (Throwable e) {
 			throw closer.rethrow(e);
