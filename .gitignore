@@ -17,4 +17,3 @@ swc-service.iml
 .idea/
 target/
 src/main/resources/rebel.xml
-src/main/webapp/WEB-INF/swc-service.properties
