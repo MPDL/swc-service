@@ -140,6 +140,20 @@ public class RestProcessUtils {
 					closer.register(screenshotConn.getOutputStream()));
 
 			bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());
+			
+            // TODO: jersey-client
+/*
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client
+                    .target(config.getScreenshotServiceUrl())
+                    .path("take")
+                    .queryParam("useFireFox", "true");
+            Response response = target
+                    .request(MediaType.APPLICATION_OCTET_STREAM_TYPE)
+                    .post(Entity.entity(inputStream, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+
+            bytes = ByteStreams.toByteArray(response.readEntity(InputStream.class));
+*/
 
 		} catch (Throwable e) {
 			throw closer.rethrow(e);
