@@ -126,7 +126,7 @@ public class RestProcessUtils {
 			// screenshot service connection
 			screenshotConn = URI
 					.create(config.getScreenshotServiceUrl()
-							+ "?useFireFox=true").toURL().openConnection();
+							+ "/take?useFireFox=true").toURL().openConnection();
 			screenshotConn.setDoOutput(true);
 
           	// build response entity directly from .swc inputStream
