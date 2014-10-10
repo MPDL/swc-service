@@ -18,7 +18,9 @@ public class ServiceConfiguration {
 
 	public static final String SERVICE_NAME = "swc";
 	private static final String PROPERTIES_FILENAME = "swc-service.properties";
-	private Properties properties = new Properties();
+
+    private Properties properties = new Properties();
+
 
 	public ServiceConfiguration() {
 		load();
@@ -77,5 +79,10 @@ public class ServiceConfiguration {
         }
 
 	}
+
+    public Properties getProperties() {
+        return properties;
+    }
+
 
 }

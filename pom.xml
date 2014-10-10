@@ -6,7 +6,7 @@
 	<artifactId>swc-service</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>swc-service</name>
+    <name>swc-service</name>
 	<description>Web service to visualize and analize swc data</description>
 	<url>https://github.com/MPDL/swc-service</url>
 	<licenses>
@@ -52,25 +52,19 @@
 	</distributionManagement>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<warName>${project.warName}</warName>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warName>${project.warName}</warName>
+                    <outputDirectory>${tomcat.webapps}</outputDirectory>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
 				<configuration>
 					<failIfNoTests>false</failIfNoTests>
                     <additionalClasspathElements>
@@ -82,6 +76,16 @@
 		</plugins>
 	</build>
 	<dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.7</version>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -106,16 +110,6 @@
 			<artifactId>jersey-media-multipart</artifactId>
 			<version>2.11</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tuckey</groupId>
@@ -149,12 +143,21 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-       <!--<dependency>
-            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-            <artifactId>jersey-test-framework-provider-inmemory</artifactId>
-            <version>2.11</version>
-            <scope>test</scope>
-        </dependency>-->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>1.48</version>
+
+            <!-- Include this if you have dependency conflicts for Guava, Jetty, Jackson or Apache HTTP Client -->
+            <!--<classifier>standalone</classifier>-->
+        </dependency>
+
+        <!--<dependency>
+             <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+             <artifactId>jersey-test-framework-provider-inmemory</artifactId>
+             <version>2.11</version>
+             <scope>test</scope>
+         </dependency>-->
 
         <dependency>
             <groupId>org.glassfish.jersey.test-framework.providers</groupId>
@@ -162,49 +165,21 @@
             <version>2.11</version>
             <scope>test</scope>
         </dependency>
-
-
-<!--         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.0.5.v20130815</version>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.9.5</version>
             <scope>test</scope>
-        </dependency> -->
+        </dependency>
+
+
+        <!--         <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-server</artifactId>
+                    <version>9.0.5.v20130815</version>
+                    <scope>test</scope>
+                </dependency> -->
 	</dependencies>
-
-
-	<profiles>
-		<profile>
-			<id>development</id>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<!-- copy the war folder into the tomcat deploy folder ($TOMCAT_HOME/webapps) -->
-							<execution>
-								<id>install</id>
-								<phase>install</phase>
-								<configuration>
-									<tasks>
-										<delete quiet="true"
-											file="${tomcat.webapps}/${project.warName}.war" />
-										<delete quiet="true" dir="${tomcat.webapps}/${project.warName}" />
-										<copy overwrite="true"
-											file="${project.build.directory}/${project.warName}.war"
-											tofile="${tomcat.webapps}/${project.warName}.war" />
-									</tasks>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 
 </project>

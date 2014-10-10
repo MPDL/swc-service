@@ -12,7 +12,7 @@ public class MyApplication extends ResourceConfig {
 
     public MyApplication() {
         packages("de.mpg.mpdl.service.rest.swc");
-        register(LoggingFilter.class);
+//        register(LoggingFilter.class);
         register(MultiPartFeature.class);
         property(JsonGenerator.PRETTY_PRINTING, true);
     }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -41,7 +43,12 @@ public class RestProcessUtils {
 	private static final String SWC_VIEW_THUMB_HTML_TEMPLATE_FILE_NAME = "swc_view_template_thumb.html";
 	private static final String JS_LIBS_LINKED_FILE_NAME = "js-linked.html";
 	private static final String JS_LIBS_PORTABLE_FILE_NAME = "js-portable.html";
-	private static final ServiceConfiguration config = new ServiceConfiguration();
+
+    private static ServiceConfiguration config = new ServiceConfiguration();
+
+    public static ServiceConfiguration getConfig() {
+        return config;
+    }
 
 	public static Response generateViewFromTextarea(String swc, boolean portable)
 			throws IOException {
@@ -51,7 +58,10 @@ public class RestProcessUtils {
 	public static Response generateViewFromUrl(String url, boolean portable)
 			throws IOException {
 		// TODO: jersey-client
-		URLConnection swcSourceConnection = URI.create(url).toURL()
+		URLConnection swcSourceConnection = UriBuilder
+                .fromPath(url)
+                .build()
+                .toURL()
 				.openConnection();
 		return buildHtmlResponse(generateResponseHtml(
 				getInputStreamAsString(swcSourceConnection.getInputStream()),
@@ -97,12 +107,14 @@ public class RestProcessUtils {
 	}
 
 	public static Response generateThumbnailFromUrl(String url)
-			throws IOException {
+            throws IOException {
 
 		// get de.mpg.mpdl.service.rest.swc from url (input stream)
-		URLConnection swcSourceConnection = URI.create(url).toURL()
+		URLConnection swcSourceConnection = UriBuilder
+                .fromUri(url)
+                .build()
+                .toURL()
 				.openConnection();
-
 		return generateThumbnail(swcSourceConnection.getInputStream());
 
 	}
@@ -122,11 +134,14 @@ public class RestProcessUtils {
 		URLConnection screenshotConn = null;
 		byte[] bytes = null;
 		try {
-			// TODO: jersey-client
 			// screenshot service connection
-			screenshotConn = URI
-					.create(config.getScreenshotServiceUrl()
-							+ "/take?useFireFox=true").toURL().openConnection();
+			screenshotConn = UriBuilder
+                    .fromUri(config.getScreenshotServiceUrl())
+                    .path("take")
+                    .queryParam("useFireFox", "true")
+                    .build()
+                    .toURL()
+					.openConnection();
 			screenshotConn.setDoOutput(true);
 
           	// build response entity directly from .swc inputStream
@@ -140,9 +155,11 @@ public class RestProcessUtils {
 					closer.register(screenshotConn.getOutputStream()));
 
 			bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());
-			
+
             // TODO: jersey-client
-/*
+            /*
+            InputStream testInputStream = getResourceAsInputStream("DSC04350.JPG");
+
             Client client = ClientBuilder.newClient();
             WebTarget target = client
                     .target(config.getScreenshotServiceUrl())
@@ -152,8 +169,10 @@ public class RestProcessUtils {
                     .request(MediaType.APPLICATION_OCTET_STREAM_TYPE)
                     .post(Entity.entity(inputStream, MediaType.APPLICATION_OCTET_STREAM_TYPE));
 
+
             bytes = ByteStreams.toByteArray(response.readEntity(InputStream.class));
-*/
+            */
+
 
 		} catch (Throwable e) {
 			throw closer.rethrow(e);
@@ -312,7 +331,10 @@ public class RestProcessUtils {
 
 	public static Response generateAnalyzeFromUrl(String url, String query,
 			int numberOfBins, boolean widthOfBins) throws IOException {
-		URLConnection swcSourceConnection = URI.create(url).toURL()
+		URLConnection swcSourceConnection = UriBuilder
+                .fromUri(url)
+                .build()
+                .toURL()
 				.openConnection();
 		LMeasure lMeasure = new LMeasure();
 		lMeasure.execute(
