@@ -1,6 +1,5 @@
 package de.mpg.mpdl.service.rest.swc;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
 import de.mpg.mpdl.service.rest.swc.process.LMeasure;
 import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
@@ -11,7 +10,6 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
