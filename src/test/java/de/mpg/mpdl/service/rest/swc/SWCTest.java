@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -61,7 +62,7 @@ public class SWCTest extends JerseyTest {
      * Initilize tests source file variables
      * */
     @BeforeClass
-    public static void initilizeResources() {
+    public static void initilizeResources() throws IOException, URISyntaxException {
 
         //ping thumbnail service
         Client client = ClientBuilder.newClient();

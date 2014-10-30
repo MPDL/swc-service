@@ -3,6 +3,7 @@ package de.mpg.mpdl.service.rest.swc.process;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class LMeasure {
 	/**
 	 * Default constructor
 	 */
-	public LMeasure() {
+	public LMeasure() throws IOException, URISyntaxException {
 		LMEASURE_CMD = config.getLMeasureBinary();
 	}
 

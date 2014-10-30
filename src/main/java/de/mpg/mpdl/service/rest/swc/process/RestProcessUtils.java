@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -302,14 +304,22 @@ public class RestProcessUtils {
 		return null;
 	}
 
+    // Try to resolve path to file according to running context in following order:
+    // 1) from absolute path
+    // 2) from local resources
+    public static String resolvePath(String path) throws IOException {
+        return Files.exists(Paths.get(path)) ?
+                path : getResourceAsURL(path).getPath();
+    }
+
 	/**************************
-	 * 
+	 *
 	 * SWC ANALYZE
-	 * 
+	 *
 	 **************************/
 
 	public static Response generateAnalyzeFromFiles(HttpServletRequest request)
-			throws IOException, FileUploadException {
+            throws IOException, FileUploadException, URISyntaxException {
 		LMeasure lMeasure = new LMeasure();
 		List<FileItem> items = uploadFiles(request);
 		lMeasure.execute(getInputStreamAsFile(getFirstFileItem(items)
@@ -320,7 +330,7 @@ public class RestProcessUtils {
 
 	public static Response generateAnalyzeFromTextArea(String swc,
 			String query, int numberOfBins, boolean widthOfBins)
-			throws IOException {
+            throws IOException, URISyntaxException {
 		LMeasure lMeasure = new LMeasure();
 		lMeasure.execute(
 				getInputStreamAsFile(new ByteArrayInputStream(swc
@@ -330,7 +340,7 @@ public class RestProcessUtils {
 	}
 
 	public static Response generateAnalyzeFromUrl(String url, String query,
-			int numberOfBins, boolean widthOfBins) throws IOException {
+			int numberOfBins, boolean widthOfBins) throws IOException, URISyntaxException {
 		URLConnection swcSourceConnection = UriBuilder
                 .fromUri(url)
                 .build()
@@ -350,8 +360,7 @@ public class RestProcessUtils {
 				return Integer.parseInt(item.getString());
 		return 0;
 	}
-
-	private static boolean getWidthOfBins(List<FileItem> items) {
+    private static boolean getWidthOfBins(List<FileItem> items) {
 		for (FileItem item : items)
 			if (item.isFormField() && "typeOfBins".equals(item.getFieldName()))
 				return item.getString().equals("width");
@@ -364,4 +373,5 @@ public class RestProcessUtils {
 				return item.getString();
 		return null;
 	}
+
 }

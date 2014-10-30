@@ -2,10 +2,13 @@ package de.mpg.mpdl.service.rest.swc;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
-import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
 import org.apache.commons.io.FilenameUtils;
+
+import static de.mpg.mpdl.service.rest.swc.process.RestProcessUtils.*;
 
 public class ServiceConfiguration {
 
@@ -32,13 +35,17 @@ public class ServiceConfiguration {
 		return "http://localhost:8080/" + SERVICE_NAME;
 	}
 
-	public String getLMeasureBinary() {
-		if (properties.containsKey("lmeasure.bin"))
-			return normalizeServiceUrl((String) properties.get("lmeasure.bin"));
+	public String getLMeasureBinary() throws IOException, URISyntaxException {
+		if (properties.containsKey("lmeasure.bin")) {
+            return normalizeServiceUrl(
+                    resolvePath((String) properties.get("lmeasure.bin"))
+            );
+        }
 		return "Lm";
 	}
 
-	private String normalizeServiceUrl(String url) {
+
+    private String normalizeServiceUrl(String url) {
 		return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
 	}
 
@@ -67,7 +74,7 @@ public class ServiceConfiguration {
 
                 //if no app server is defined, take props from WEB-INF
                 //(this is the test case)
-                properties.load(RestProcessUtils.getResourceAsInputStream(PROPERTIES_FILENAME));
+                properties.load(getResourceAsInputStream(PROPERTIES_FILENAME));
                 return;
             }
 

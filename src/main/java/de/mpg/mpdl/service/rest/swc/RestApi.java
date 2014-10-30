@@ -1,6 +1,7 @@
 package de.mpg.mpdl.service.rest.swc;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
@@ -105,7 +106,7 @@ public class RestApi {
 	public Response getAnalyzeFromTextarea(@FormParam("swc") String swc,
 			@FormParam("numberOfBins") String numberOfBins,
 			@FormParam("typeOfBins") String typeOfBins,
-			@FormParam("query") String query) throws IOException {
+			@FormParam("query") String query) throws IOException, URISyntaxException {
 		return RestProcessUtils.generateAnalyzeFromTextArea(swc, query, Integer
 				.parseInt(numberOfBins), "width".equals(typeOfBins));
 	}
@@ -115,7 +116,7 @@ public class RestApi {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAnalyzeFromFiles(@Context HttpServletRequest request)
-			throws IOException, FileUploadException {
+            throws IOException, FileUploadException, URISyntaxException {
 		return RestProcessUtils.generateAnalyzeFromFiles(request);
 	}
 
@@ -126,7 +127,7 @@ public class RestApi {
 	public Response getAnalyzeFromUrl(@QueryParam("url") String url,
 			@QueryParam("numberOfBins") String numberOfBins,
 			@QueryParam("typeOfBins") String typeOfBins,
-			@QueryParam("query") String query) throws IOException {
+			@QueryParam("query") String query) throws IOException, URISyntaxException {
 		return RestProcessUtils.generateAnalyzeFromUrl(url, query, Integer
 				.parseInt(numberOfBins), "width".equals(typeOfBins));
 	}
