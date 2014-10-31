@@ -299,6 +299,7 @@ public class RestProcessUtils {
     // 1) from absolute path
     // 2) from local resources
     public static String resolvePath(String path) throws IOException {
+    	System.out.println("path:" + path);
         return Files.exists(Paths.get(path)) ?
                 path : getResourceAsURL(path).getPath();
     }
