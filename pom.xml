@@ -61,19 +61,19 @@
                     <outputDirectory>${tomcat.webapps}</outputDirectory>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.17</version>
-				<configuration>
-					<failIfNoTests>false</failIfNoTests>
+                <configuration>
+                    <failIfNoTests>false</failIfNoTests>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>src/main/webapp/WEB-INF</additionalClasspathElement>
-                        <additionalClasspathElement>src/main/resources</additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/src/main/webapp/WEB-INF</additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/src/main/resources</additionalClasspathElement>
                     </additionalClasspathElements>
-				</configuration>
-			</plugin>
-		</plugins>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 	<dependencies>
         <dependency>
