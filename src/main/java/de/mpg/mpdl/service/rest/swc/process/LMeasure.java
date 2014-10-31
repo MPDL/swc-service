@@ -44,6 +44,11 @@ public class LMeasure {
 			File output = File.createTempFile("lmeasure", ".txt");
 			query = query == null || query.trim().equals("") ? getDefaultQuery(
 					numberOfBins, widthOfBins) : query;
+
+            System.out.println(LMEASURE_CMD + " " + query + " -s"
+                    + output.getAbsolutePath() + " "
+                    + swcFile.getAbsolutePath());
+
 			Process p = Runtime.getRuntime().exec(
 					LMEASURE_CMD + " " + query + " -s"
 							+ output.getAbsolutePath() + " "
