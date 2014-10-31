@@ -49,10 +49,14 @@ public class LMeasure {
                     + output.getAbsolutePath() + " "
                     + swcFile.getAbsolutePath());
 
-			Process p = Runtime.getRuntime().exec(
-					LMEASURE_CMD + " " + query + " -s"
-							+ output.getAbsolutePath() + " "
-							+ swcFile.getAbsolutePath());
+			Process p = Runtime.getRuntime().exec( new String[] {
+                LMEASURE_CMD,
+                query,
+                " -s",
+                output.getAbsolutePath(),
+                swcFile.getAbsolutePath()
+            });
+
 			p.waitFor();
 			measureMap = parseOutput(swcFile, output);
 		} catch (Exception e) {

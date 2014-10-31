@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import java.io.*;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -298,10 +299,9 @@ public class RestProcessUtils {
     // Try to resolve path to file according to running context in following order:
     // 1) from absolute path
     // 2) from local resources
-    public static String resolvePath(String path) throws IOException {
-    	System.out.println("path:" + path);
+    public static String resolvePath(String path) throws IOException, URISyntaxException {
         return Files.exists(Paths.get(path)) ?
-                path : getResourceAsURL(path).getPath();
+                path : new URI(getResourceAsURL(path).toString()).getPath();
     }
 
 	/**************************
