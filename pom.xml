@@ -68,8 +68,7 @@
 				<configuration>
 					<failIfNoTests>false</failIfNoTests>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>src/main/webapp/WEB-INF</additionalClasspathElement>
-                        <additionalClasspathElement>src/main/webapp/WEB-INF/Lmv5.2_64bit</additionalClasspathElement>
+                        <additionalClasspathElement>src/main/webapp/WEB-INF/**</additionalClasspathElement>
                         <additionalClasspathElement>src/main/resources</additionalClasspathElement>
                     </additionalClasspathElements>
 				</configuration>
