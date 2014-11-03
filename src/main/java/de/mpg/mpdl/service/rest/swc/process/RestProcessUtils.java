@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -124,15 +129,16 @@ public class RestProcessUtils {
 			throws IOException {
 		Closer closer = Closer.create();
 		closer.register(inputStream);
+        byte[] bytes = null;
 
-		URLConnection screenshotConn = null;
-		byte[] bytes = null;
+
 		try {
+            /*URLConnection screenshotConn = null;
 			// screenshot service connection
 			screenshotConn = UriBuilder
                     .fromUri(config.getScreenshotServiceUrl())
                     .path("take")
-                    .queryParam("useFireFox", "true")
+//                    .queryParam("useFireFox", "true")
                     .build()
                     .toURL()
 					.openConnection();
@@ -142,31 +148,34 @@ public class RestProcessUtils {
 			bytes = generateResponseHtml(getInputStreamAsString(inputStream),
 					true, true).getBytes(StandardCharsets.UTF_8);
 
+            LOGGER.info(new String(bytes));
+
 			InputStream swcResponseInputStream = closer
 					.register(new ByteArrayInputStream(bytes));
 
 			ByteStreams.copy(swcResponseInputStream,
 					closer.register(screenshotConn.getOutputStream()));
 
-			bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());
+			bytes = ByteStreams.toByteArray(screenshotConn.getInputStream());*/
 
-            // TODO: jersey-client
-            /*
-            InputStream testInputStream = getResourceAsInputStream("DSC04350.JPG");
+            // jersey-client implementation:
+
 
             Client client = ClientBuilder.newClient();
             WebTarget target = client
                     .target(config.getScreenshotServiceUrl())
-                    .path("take")
-                    .queryParam("useFireFox", "true");
+                    .path("take");
+
+            Form form = new Form()
+                    .param("html",
+                        generateResponseHtml(getInputStreamAsString(inputStream),true, true))
+                    .param("format", "png");
+
             Response response = target
-                    .request(MediaType.APPLICATION_OCTET_STREAM_TYPE)
-                    .post(Entity.entity(inputStream, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+                    .request(MediaType.APPLICATION_OCTET_STREAM_TYPE, MediaType.TEXT_HTML_TYPE)
+                    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
 
-
-            bytes = ByteStreams.toByteArray(response.readEntity(InputStream.class));
-            */
-
+            bytes = ByteStreams.toByteArray((InputStream)response.getEntity());
 
 		} catch (Throwable e) {
 			throw closer.rethrow(e);

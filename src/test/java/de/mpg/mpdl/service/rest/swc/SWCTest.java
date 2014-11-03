@@ -1,5 +1,6 @@
 package de.mpg.mpdl.service.rest.swc;
 
+import com.google.common.io.ByteStreams;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
 import de.mpg.mpdl.service.rest.swc.process.LMeasure;
 import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
@@ -23,7 +24,9 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -39,7 +42,8 @@ public class SWCTest extends JerseyTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SWCTest.class);
 
 
-    final static String SWC_TEST_FILE_NAME = "HB060602_3ptSoma.swc";
+//    final static String SWC_TEST_FILE_NAME = "HB060602_3ptSoma.swc";
+    final static String SWC_TEST_FILE_NAME = "HB060602_3ptSoma_short.swc";
     static String SWC_CONTENT = null;
     static String SWC_URL = null;
     static FormDataMultiPart SWC_MULTIPART = null;
@@ -70,8 +74,6 @@ public class SWCTest extends JerseyTest {
         Response response = target.request(MediaType.TEXT_HTML_TYPE).get();
         assertEquals("Cannot access screenshot service", 200, response.getStatus());
         response.close();
-
-
 
         //initilize all test file-related global variables
         FileDataBodyPart filePart = null;
