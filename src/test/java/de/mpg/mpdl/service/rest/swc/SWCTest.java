@@ -1,6 +1,5 @@
 package de.mpg.mpdl.service.rest.swc;
 
-import com.google.common.io.ByteStreams;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
 import de.mpg.mpdl.service.rest.swc.process.LMeasure;
 import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
@@ -24,9 +23,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -104,6 +101,7 @@ public class SWCTest extends JerseyTest {
      * */
     @Test
     public void testTextareaViewIn3D() throws IOException {
+        LOGGER.info("testTextareaViewIn3D...");
         testTextarea(new Form()
                         .param("portable", "false"),
                 Pathes.PATH_VIEW,
@@ -113,6 +111,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testTextareaViewIn3DPortable() throws IOException {
+        LOGGER.info("testTextareaViewIn3DPortable...");
         testTextarea(new Form()
                         .param("portable", "true"),
                 Pathes.PATH_VIEW,
@@ -122,7 +121,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testTextareaGenerateThumbnail() throws IOException {
-
+        LOGGER.info("testTextareaGenerateThumbnail...");
         testTextarea(new Form()
                         .param("portable", "false"),
                 Pathes.PATH_THUMB,
@@ -133,7 +132,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testTextareaAnalyze() throws IOException {
-
+        LOGGER.info("testTextareaAnalyze...");
         testTextarea(new Form()
                         .param("portable", "false")
                         .param("typeOfBins", "number")
@@ -158,6 +157,7 @@ public class SWCTest extends JerseyTest {
      * */
     @Test
     public void testUrlViewIn3D() throws IOException {
+        LOGGER.info("testUrlViewIn3D...");
         testUrl(
                 target(Pathes.PATH_VIEW)
                 .queryParam("portable", "false"),
@@ -165,10 +165,9 @@ public class SWCTest extends JerseyTest {
         );
     }
 
-
-
     @Test
     public void testUrlViewIn3DPortable() throws IOException {
+        LOGGER.info("testUrlViewIn3DPortable...");
         testUrl(
                 target(Pathes.PATH_VIEW)
                 .queryParam("portable", "true"),
@@ -178,6 +177,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testUrlGenerateThumbnail() throws IOException {
+        LOGGER.info("testUrlGenerateThumbnail...");
         testUrl(
                 target(Pathes.PATH_THUMB)
                 .queryParam("portable", "false"),
@@ -187,7 +187,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testUrlAnalyze() throws IOException {
-
+        LOGGER.info("testUrlAnalyze...");
         testUrl(
                 target(Pathes.PATH_ANALYZE)
                 .queryParam("portable", "false")
@@ -209,7 +209,7 @@ public class SWCTest extends JerseyTest {
      * */
     @Test
     public void testFileViewIn3D() throws IOException {
-
+        LOGGER.info("testFileViewIn3D...");
         testFile(SWC_MULTIPART
                         .field("portable", "false"),
                 Pathes.PATH_VIEW,
@@ -219,7 +219,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testFileViewIn3DPortable() throws IOException {
-
+        LOGGER.info("testFileViewIn3DPortable...");
         testFile(SWC_MULTIPART
                         .field("portable", "true"),
                 Pathes.PATH_VIEW,
@@ -229,8 +229,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testFileGenerateThumbnail() throws IOException {
-
-        
+        LOGGER.info("testFileGenerateThumbnail...");
         testFile(SWC_MULTIPART
                         .field("portable", "false"),
                 Pathes.PATH_THUMB,
@@ -240,7 +239,7 @@ public class SWCTest extends JerseyTest {
 
     @Test
     public void testFileAnalyze() throws IOException {
-
+        LOGGER.info("testFileAnalyze...");
         testFile(SWC_MULTIPART
                         .field("portable", "false")
                         .field("typeOfBins", "number")

@@ -1,14 +1,15 @@
 package de.mpg.mpdl.service.rest.swc;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import org.apache.commons.io.FilenameUtils;
-
-import static de.mpg.mpdl.service.rest.swc.process.RestProcessUtils.*;
+import static de.mpg.mpdl.service.rest.swc.process.RestProcessUtils.getResourceAsInputStream;
+import static de.mpg.mpdl.service.rest.swc.process.RestProcessUtils.resolvePath;
 
 public class ServiceConfiguration {
 

@@ -1,15 +1,13 @@
 package de.mpg.mpdl.service.rest.swc.process;
 
+import de.mpg.mpdl.service.rest.swc.ServiceConfiguration;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-
-import de.mpg.mpdl.service.rest.swc.ServiceConfiguration;
 
 /**
  * L-Measure Facade to use LMeasure in java

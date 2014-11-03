@@ -1,28 +1,19 @@
 package de.mpg.mpdl.service.rest.swc;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import javax.inject.Singleton;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
+import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
 import org.apache.commons.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.mpg.mpdl.service.rest.swc.ServiceConfiguration.Pathes;
-import de.mpg.mpdl.service.rest.swc.process.RestProcessUtils;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 @Singleton
 @Path("/")

@@ -1,9 +1,9 @@
 package de.mpg.mpdl.service.rest.swc;
 
-import javax.json.stream.JsonGenerator;
-import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+
+import javax.json.stream.JsonGenerator;
 
 /**
  * @author vmakarenko
