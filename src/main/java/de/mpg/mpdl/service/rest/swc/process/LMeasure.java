@@ -1,8 +1,13 @@
 package de.mpg.mpdl.service.rest.swc.process;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.base.Joiner;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +23,14 @@ import java.util.Map;
  */
 public class LMeasure {
 
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(LMeasure.class);
+
 	private static String LMEASURE_CMD;
 	private ServiceConfiguration config = new ServiceConfiguration();
 	private Map<String, String> measureMap;
+
+
 
 	/**
 	 * Default constructor
@@ -104,15 +114,8 @@ public class LMeasure {
 	 * @return
 	 */
 	private String getLineMeasureValue(File input, String line) {
-		String[] elements = line.replace(input.getAbsolutePath(), "").trim()
-				.split(" ");
-		String value = "";
-		if (elements.length > 1) {
-			for (int i = 1; i < elements.length; i++) {
-				value += elements[i].trim() + " ";
-			}
-		}
-		return value;
+        line = line.replaceFirst(input.getAbsolutePath(), "").trim().replace("\t", " ");
+		return line.substring(line.indexOf(" ")+2);
 	}
 
 	private String getDefaultQuery(int numberOfBins, boolean widthOfBins) {
@@ -143,13 +146,10 @@ public class LMeasure {
 	 * 
 	 * @return
 	 */
-	public String toJSON() {
-		String json = "{\n";
-		for (String key : measureMap.keySet())
-			json += "\"" + key + "\": \"" + measureMap.get(key) + "\",\n";
-		json += "}";
-		return json;
-
-	}
+	public String toJSON() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper()
+            .enable(SerializationFeature.INDENT_OUTPUT);
+		return mapper.writeValueAsString(measureMap);
+    }
 
 }

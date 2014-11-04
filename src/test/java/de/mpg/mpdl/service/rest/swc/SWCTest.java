@@ -95,7 +95,6 @@ public class SWCTest extends JerseyTest {
         lMeasure.execute(new File(uri), "", 0, false);
         assertThat("Wrong lmeasure processing: ", lMeasure.toJSON(),
             equalToIgnoringWhiteSpace((RestProcessUtils.getResourceAsString(ANALYZE_TEST_FILE_NAME))));
-
     }
 
 
