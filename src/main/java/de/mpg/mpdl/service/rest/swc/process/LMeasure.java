@@ -144,12 +144,17 @@ public class LMeasure {
 	 * @return
 	 */
 	public String toJSON() {
-		String json = "{\n";
-		for (String key : measureMap.keySet())
-			json += "\"" + key + "\": \"" + measureMap.get(key) + "\",\n";
-		json += "}";
-		return json;
-
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : measureMap.entrySet()) {
+            sb
+                .append("\"")
+                .append(entry.getKey())
+                .append("\": \"")
+                .append(entry.getValue())
+                .append("\",\n");
+        }
+        sb.setLength(sb.length() - 2);
+		return "{\n" + sb.toString() + "\n}" ;
 	}
 
 }
