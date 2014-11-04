@@ -28,8 +28,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -41,6 +40,7 @@ public class SWCTest extends JerseyTest {
 
 //    final static String SWC_TEST_FILE_NAME = "HB060602_3ptSoma.swc";
     final static String SWC_TEST_FILE_NAME = "HB060602_3ptSoma_short.swc";
+    final static String ANALYZE_TEST_FILE_NAME = "analyze_response.json";
     static String SWC_CONTENT = null;
     static String SWC_URL = null;
     static FormDataMultiPart SWC_MULTIPART = null;
@@ -90,9 +90,16 @@ public class SWCTest extends JerseyTest {
         assertNotNull("Cannot create multipart body for SWC from test resources: " + SWC_TEST_FILE_NAME, filePart);
 
         //test L-Measure
-        assertNotNull("Cannot execute L-Measure", new LMeasure().execute(new File(uri), "", 0, false));
+        LMeasure lMeasure = new LMeasure();
+        assertNotNull("Cannot execute L-Measure", lMeasure);
+        lMeasure.execute(new File(uri), "", 0, false);
+        assertThat("Wrong lmeasure processing: ", lMeasure.toJSON(),
+            equalToIgnoringWhiteSpace((RestProcessUtils.getResourceAsString(ANALYZE_TEST_FILE_NAME))));
 
     }
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 package de.mpg.mpdl.service.rest.swc.process;
 
+import com.google.common.base.Joiner;
 import de.mpg.mpdl.service.rest.swc.ServiceConfiguration;
 import org.apache.commons.io.FileUtils;
 
@@ -43,13 +44,15 @@ public class LMeasure {
 			query = query == null || query.trim().equals("") ? getDefaultQuery(
 					numberOfBins, widthOfBins) : query;
 
-			Process p = Runtime.getRuntime().exec( new String[] {
-                LMEASURE_CMD,
-                query,
-                " -s",
-                output.getAbsolutePath(),
-                swcFile.getAbsolutePath()
-            });
+
+			Process p = Runtime.getRuntime().exec(Joiner.on(" ").join(
+                new String[] {
+                        LMEASURE_CMD,
+                        query,
+                        "-s"+output.getAbsolutePath(),
+                        swcFile.getAbsolutePath()
+                }
+            ));
 
 			p.waitFor();
 			measureMap = parseOutput(swcFile, output);
