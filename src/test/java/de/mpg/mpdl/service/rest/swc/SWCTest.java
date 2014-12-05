@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static javax.ws.rs.core.Response.Status;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
@@ -50,7 +51,7 @@ public class SWCTest extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new MyApplication();
+        return new MyApplication ();
     }
 
 
@@ -69,7 +70,12 @@ public class SWCTest extends JerseyTest {
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(new ServiceConfiguration().getScreenshotServiceUrl());
         Response response = target.request(MediaType.TEXT_HTML_TYPE).get();
-        assertEquals("Cannot access screenshot service", 200, response.getStatus());
+        assertThat("Cannot access screenshot service", response.getStatus(),
+                isOneOf(
+                        Status.OK.getStatusCode(),
+                        Status.FOUND.getStatusCode()
+                )
+        );
         response.close();
 
         //initilize all test file-related global variables
@@ -96,8 +102,6 @@ public class SWCTest extends JerseyTest {
         assertThat("Wrong lmeasure processing: ", lMeasure.toJSON(),
             equalToIgnoringWhiteSpace((RestProcessUtils.getResourceAsString(ANALYZE_TEST_FILE_NAME))));
     }
-
-
 
 
 
@@ -298,7 +302,7 @@ public class SWCTest extends JerseyTest {
                 .accept(responseMediaType)
                 .post(Entity.entity(multipart, multipart.getMediaType()));
 
-        assertEquals(200, response.getStatus());
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertThat(response.readEntity(String.class), not(isEmptyOrNullString()));
 
     }

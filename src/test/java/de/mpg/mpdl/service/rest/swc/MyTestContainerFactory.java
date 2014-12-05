@@ -1,5 +1,6 @@
 package de.mpg.mpdl.service.rest.swc;
 
+import com.google.common.collect.ImmutableMap;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.grizzly2.servlet.GrizzlyWebContainerFactory;
@@ -11,7 +12,6 @@ import org.glassfish.jersey.test.spi.TestContainerFactory;
 import javax.ws.rs.ProcessingException;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Collections;
 
 /**
  * The class overrides TestContainerFactory with GrizzlyWebContainerFactory. The GrizzlyWebContainer fully
@@ -22,7 +22,7 @@ import java.util.Collections;
 * */
 public class MyTestContainerFactory implements TestContainerFactory {
     @Override
-    public TestContainer create(final URI baseUri, DeploymentContext deploymentContext) throws IllegalArgumentException {
+    public TestContainer create(final URI baseUri, final DeploymentContext deploymentContext) throws IllegalArgumentException {
         return new TestContainer() {
             private HttpServer server;
 
@@ -40,7 +40,11 @@ public class MyTestContainerFactory implements TestContainerFactory {
             public void start() {
                 try {
                     this.server = GrizzlyWebContainerFactory.create(
-                            baseUri, Collections.singletonMap("jersey.config.server.provider.packages", "de.mpg.mpdl.service.rest.swc")
+                            baseUri,
+                            ImmutableMap.of(
+                                "jersey.config.server.provider.packages", "de.mpg.mpdl.service.rest.swc",
+                                "jersey.config.server.provider.classnames", "org.glassfish.jersey.filter.LoggingFilter;org.glassfish.jersey.media.multipart.MultiPartFeature"
+                            )
                     );
                 } catch (ProcessingException e) {
                     throw new TestContainerException(e);

@@ -27,7 +27,7 @@ public class RestApi {
 	 * 
 	 * @GET @Path(Pathes.PATH_EXPLAIN)
 	 * @Produces(MediaType.TEXT_HTML) public Response getExplain() { return
-	 *                                RestProcessUtils.getExplain(); }
+	 *                                process.getExplain(); }
 	 */
 
 	@POST
