@@ -15,7 +15,7 @@
 
 </head>
 <body>
-
+	<h1 id="nosupport" style="display:none;">Your browser doesn't support WebGL</h1>
     <h3>3D Representation of the Neuron:</h3>
     <!-- three.js container -->
     <div id="container"></div>
@@ -23,10 +23,15 @@
     <!-- info on screen display -->
     <script type='text/javascript'>
         window.onload = function(){
-            var swc = swc_parser(document.getElementById("swc").text);
-            var s = new SharkViewer({swc: swc, dom_element: 'container',  center_node: -1, show_stats:true, screenshot: true});
-            s.init();
-            s.animate();
+        	var canvas = document.createElement('canvas');
+        	if ( window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")) ) {
+	            var swc = swc_parser(document.getElementById("swc").text);
+    	        var s = new SharkViewer({swc: swc, dom_element: 'container',  center_node: -1, show_stats:true, screenshot: true});
+        	    s.init();
+            	s.animate();
+        	} else {
+        		document.getElementById("nosupport").style.display="block";
+        	}
         }
     </script>
 
