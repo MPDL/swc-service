@@ -1,45 +1,389 @@
 {
-    "N_tips" : "3 3 (27) 1 1 1 0",
-    "Parent_Daughter_Ratio" : "7.56776 3 (27) 1 2.52259 5.56776 2.15326",
-    "Fractal_Dim" : "1.15395 1 (29) 1.15395 1.15395 1.15395 0",
-    "SectionArea" : "1818.58 29 (1) 0.637875 62.7097 86.751 23.859",
-    "Bif_ampl_local" : "0 0 (30) 0 0 0 0",
-    "Type" : "84 30 (0) 1 2.8 3 0.558242",
-    "Daughter_Ratio" : "1 1 (29) 1 1 1 0",
-    "Contraction" : "2.49172 3 (27) 0.491717 0.830572 1 0.239607",
-    "Depth" : "7.11 30 (0) 7.11 7.11 7.11 0",
-    "TerminalSegment" : "29 29 (1) 1 1 1 0",
-    "Helix" : "0.05 25 (5) -0.08 0.002 0.1 0.0452732",
-    "Bif_ampl_remote" : "0 0 (30) 0 0 0 0",
-    "Taper_2" : "-9.90871 3 (27) -9.90871 -3.3029 0 4.67101",
-    "Fragmentation" : "30 4 (26) 1 7.5 27 11.2583",
-    "Taper_1" : "-0.360799 3 (27) -0.360799 -0.120266 0 0.170082",
-    "Diameter" : "249.532 30 (0) 0.901203 8.31773 10.5097 2.74006",
-    "N_branch" : "3 3 (27) 1 1 1 0",
-    "Terminal_degree" : "32 30 (0) 1 1.06667 3 0.290576",
-    "Last_parent_diam" : "0 0 (30) 0 0 0 0",
-    "N_stems" : "1 1 (29) 1 1 1 0",
-    "Surface" : "617.474 29 (1) 1.27575 21.2922 113.421 16.576",
-    "N_bifs" : "1 1 (29) 1 1 1 0",
-    "Width" : "11.7 30 (0) 11.7 11.7 11.7 0",
-    "Pk_classic" : "2 1 (29) 2 2 2 0",
-    "Partition_asymmetry" : "1 1 (29) 1 1 1 0",
-    "Bif_torque_local" : "0 0 (30) 0 0 0 0",
-    "Diameter_pow" : "756.341 30 (0) 0.855528 25.2114 34.0713 9.74311",
-    "Volume" : "1311.7 29 (1) 0.287428 45.231 142.278 25.2778",
-    "Diam_threshold" : "6.82009 3 (27) 0.901203 2.27336 5.01769 1.94053",
-    "Height" : "1.72131 30 (0) 1.72131 1.72131 1.72131 0",
-    "Rall_Power" : "0 0 (30) 0 0 0 0",
-    "HillmanThreshold" : "4.76185 3 (27) 0.901203 1.58728 2.95945 0.970265",
-    "Branch_pathlength" : "25.65 3 (27) 0.45 8.55 24.75 11.4551",
-    "Pk" : "2 1 (29) 2 2 2 0",
-    "Bif_tilt_remote" : "0 0 (30) 0 0 0 0",
-    "Bif_tilt_local" : "0 0 (30) 0 0 0 0",
-    "Pk_2" : "2 1 (29) 2 2 2 0",
-    "Branch_Order" : "0 30 (0) 0 0 0 0",
-    "Bif_torque_remote" : "0 0 (30) 0 0 0 0",
-    "Length" : "25.659 29 (1) 0.450602 0.884794 7.19515 1.05952",
-    "Soma_Surface" : "2.5515 2 (28) 1.27575 1.27575 1.27575 4.04121e-14",
-    "EucDistance" : "202.755 30 (0) 0 6.75849 12.1739 3.11801",
-    "PathDistance" : "440.952 30 (0) 0 14.6984 24.7578 6.61987"
+  "N_tips" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "1",
+    "maximum" : "1",
+    "total_sum" : "3",
+    "s_d" : "0",
+    "average" : "1"
+  },
+  "Parent_Daughter_Ratio" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "1",
+    "maximum" : "5.56776",
+    "total_sum" : "7.56776",
+    "s_d" : "2.15326",
+    "average" : "2.52259"
+  },
+  "Fractal_Dim" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "1.15395",
+    "maximum" : "1.15395",
+    "total_sum" : "1.15395",
+    "s_d" : "0",
+    "average" : "1.15395"
+  },
+  "SectionArea" : {
+    "compartments_considered" : "29",
+    "compartments_discarded" : "1",
+    "minimum" : "0.637875",
+    "maximum" : "86.751",
+    "total_sum" : "1818.58",
+    "s_d" : "23.859",
+    "average" : "62.7097"
+  },
+  "Bif_ampl_local" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "Type" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "1",
+    "maximum" : "3",
+    "total_sum" : "84",
+    "s_d" : "0.558242",
+    "average" : "2.8"
+  },
+  "Daughter_Ratio" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "1",
+    "maximum" : "1",
+    "total_sum" : "1",
+    "s_d" : "0",
+    "average" : "1"
+  },
+  "Contraction" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "0.491717",
+    "maximum" : "1",
+    "total_sum" : "2.49172",
+    "s_d" : "0.239607",
+    "average" : "0.830572"
+  },
+  "Depth" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "7.12001",
+    "maximum" : "7.12001",
+    "total_sum" : "7.12001",
+    "s_d" : "0",
+    "average" : "7.12001"
+  },
+  "TerminalSegment" : {
+    "compartments_considered" : "29",
+    "compartments_discarded" : "1",
+    "minimum" : "1",
+    "maximum" : "1",
+    "total_sum" : "29",
+    "s_d" : "0",
+    "average" : "1"
+  },
+  "Helix" : {
+    "compartments_considered" : "25",
+    "compartments_discarded" : "5",
+    "minimum" : "-0.08",
+    "maximum" : "0.1",
+    "total_sum" : "0.05",
+    "s_d" : "0.0452732",
+    "average" : "0.002"
+  },
+  "Bif_ampl_remote" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "Taper_2" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "-9.90871",
+    "maximum" : "0",
+    "total_sum" : "-9.90871",
+    "s_d" : "4.67101",
+    "average" : "-3.3029"
+  },
+  "Fragmentation" : {
+    "compartments_considered" : "4",
+    "compartments_discarded" : "26",
+    "minimum" : "1",
+    "maximum" : "27",
+    "total_sum" : "30",
+    "s_d" : "11.2583",
+    "average" : "7.5"
+  },
+  "Taper_1" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "-0.360799",
+    "maximum" : "0",
+    "total_sum" : "-0.360799",
+    "s_d" : "0.170082",
+    "average" : "-0.120266"
+  },
+  "Diameter" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "0.901203",
+    "maximum" : "10.5097",
+    "total_sum" : "249.532",
+    "s_d" : "2.74006",
+    "average" : "8.31773"
+  },
+  "N_branch" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "1",
+    "maximum" : "1",
+    "total_sum" : "3",
+    "s_d" : "0",
+    "average" : "1"
+  },
+  "Terminal_degree" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "1",
+    "maximum" : "3",
+    "total_sum" : "32",
+    "s_d" : "0.290576",
+    "average" : "1.06667"
+  },
+  "Last_parent_diam" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "N_stems" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "1",
+    "maximum" : "1",
+    "total_sum" : "1",
+    "s_d" : "0",
+    "average" : "1"
+  },
+  "Surface" : {
+    "compartments_considered" : "29",
+    "compartments_discarded" : "1",
+    "minimum" : "1.27575",
+    "maximum" : "113.421",
+    "total_sum" : "617.474",
+    "s_d" : "16.576",
+    "average" : "21.2922"
+  },
+  "N_bifs" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "1",
+    "maximum" : "1",
+    "total_sum" : "1",
+    "s_d" : "0",
+    "average" : "1"
+  },
+  "Width" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "11.7",
+    "maximum" : "11.7",
+    "total_sum" : "11.7",
+    "s_d" : "0",
+    "average" : "11.7"
+  },
+  "Pk_classic" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "2",
+    "maximum" : "2",
+    "total_sum" : "2",
+    "s_d" : "0",
+    "average" : "2"
+  },
+  "Partition_asymmetry" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "1",
+    "maximum" : "1",
+    "total_sum" : "1",
+    "s_d" : "0",
+    "average" : "1"
+  },
+  "Bif_torque_local" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "Diameter_pow" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "0.855528",
+    "maximum" : "34.0713",
+    "total_sum" : "756.341",
+    "s_d" : "9.74311",
+    "average" : "25.2114"
+  },
+  "Volume" : {
+    "compartments_considered" : "29",
+    "compartments_discarded" : "1",
+    "minimum" : "0.287428",
+    "maximum" : "142.278",
+    "total_sum" : "1311.7",
+    "s_d" : "25.2778",
+    "average" : "45.231"
+  },
+  "Diam_threshold" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "0.901203",
+    "maximum" : "5.01769",
+    "total_sum" : "6.82009",
+    "s_d" : "1.94053",
+    "average" : "2.27336"
+  },
+  "Height" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "1.72131",
+    "maximum" : "1.72131",
+    "total_sum" : "1.72131",
+    "s_d" : "0",
+    "average" : "1.72131"
+  },
+  "Rall_Power" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "HillmanThreshold" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "0.901203",
+    "maximum" : "2.95945",
+    "total_sum" : "4.76185",
+    "s_d" : "0.970265",
+    "average" : "1.58728"
+  },
+  "Branch_pathlength" : {
+    "compartments_considered" : "3",
+    "compartments_discarded" : "27",
+    "minimum" : "0.45",
+    "maximum" : "24.75",
+    "total_sum" : "25.65",
+    "s_d" : "11.4551",
+    "average" : "8.55"
+  },
+  "Pk" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "2",
+    "maximum" : "2",
+    "total_sum" : "2",
+    "s_d" : "0",
+    "average" : "2"
+  },
+  "Bif_tilt_remote" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "Bif_tilt_local" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "Pk_2" : {
+    "compartments_considered" : "1",
+    "compartments_discarded" : "29",
+    "minimum" : "2",
+    "maximum" : "2",
+    "total_sum" : "2",
+    "s_d" : "0",
+    "average" : "2"
+  },
+  "Branch_Order" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "Bif_torque_remote" : {
+    "compartments_considered" : "0",
+    "compartments_discarded" : "30",
+    "minimum" : "0",
+    "maximum" : "0",
+    "total_sum" : "0",
+    "s_d" : "0",
+    "average" : "0"
+  },
+  "Length" : {
+    "compartments_considered" : "29",
+    "compartments_discarded" : "1",
+    "minimum" : "0.450602",
+    "maximum" : "7.19515",
+    "total_sum" : "25.659",
+    "s_d" : "1.05952",
+    "average" : "0.884794"
+  },
+  "Soma_Surface" : {
+    "compartments_considered" : "2",
+    "compartments_discarded" : "28",
+    "minimum" : "1.27575",
+    "maximum" : "1.27575",
+    "total_sum" : "2.5515",
+    "s_d" : "4.04121e-014",
+    "average" : "1.27575"
+  },
+  "EucDistance" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "0",
+    "maximum" : "12.1739",
+    "total_sum" : "202.755",
+    "s_d" : "3.11801",
+    "average" : "6.75849"
+  },
+  "PathDistance" : {
+    "compartments_considered" : "30",
+    "compartments_discarded" : "0",
+    "minimum" : "0",
+    "maximum" : "24.7578",
+    "total_sum" : "440.952",
+    "s_d" : "6.61987",
+    "average" : "14.6984"
+  }
 }
