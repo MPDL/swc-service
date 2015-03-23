@@ -23,14 +23,13 @@ import java.util.Map;
  */
 public class LMeasure {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(LMeasure.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(LMeasure.class);
 
 	private static String LMEASURE_CMD;
 	private ServiceConfiguration config = new ServiceConfiguration();
-	private Map<String, String> measureMap;
-
-
+	// private Map<String, String> measureMap;
+	private Map<String, Map<String, String>> measureMap;
 
 	/**
 	 * Default constructor
@@ -46,23 +45,19 @@ public class LMeasure {
 	 * @param query
 	 * @return
 	 */
-	public Map<String, String> execute(File swcFile, String query,
+	public Map<String, Map<String, String>> execute(File swcFile, String query,
 			int numberOfBins, boolean widthOfBins) {
-		measureMap = new HashMap<String, String>();
+		measureMap = new HashMap<String, Map<String, String>>();
 		try {
 			File output = File.createTempFile("lmeasure", ".txt");
 			query = query == null || query.trim().equals("") ? getDefaultQuery(
 					numberOfBins, widthOfBins) : query;
 
-
-			Process p = Runtime.getRuntime().exec(Joiner.on(" ").join(
-                new String[] {
-                        LMEASURE_CMD,
-                        query,
-                        "-s"+output.getAbsolutePath(),
-                        swcFile.getAbsolutePath()
-                }
-            ));
+			Process p = Runtime.getRuntime().exec(
+					Joiner.on(" ").join(
+							new String[] { LMEASURE_CMD, query,
+									"-s" + output.getAbsolutePath(),
+									swcFile.getAbsolutePath() }));
 
 			p.waitFor();
 			measureMap = parseOutput(swcFile, output);
@@ -80,9 +75,9 @@ public class LMeasure {
 	 * @return
 	 * @throws IOException
 	 */
-	private Map<String, String> parseOutput(File input, File output)
+	private Map<String, Map<String, String>> parseOutput(File input, File output)
 			throws IOException {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
 		for (String line : FileUtils.readLines(output)) {
 			String name = getLineMeasureName(input, line);
 			if (name != null)
@@ -113,9 +108,18 @@ public class LMeasure {
 	 * @param line
 	 * @return
 	 */
-	private String getLineMeasureValue(File input, String line) {
-        line = line.replaceFirst(input.getAbsolutePath(), "").trim().replace("\t", " ");
-		return line.substring(line.indexOf(" ")+2);
+	private  Map<String, String> getLineMeasureValue(File input, String line) {
+		String[] metrics = line.trim().split("\t");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("total_sum", metrics[2]);
+		map.put("compartments_considered", metrics[3]);
+		map.put("compartments_discarded", metrics[4].replace(")", "").replace("(", ""));
+		map.put("minimum", metrics[5]);
+		map.put("average", metrics[6]);
+		map.put("average", metrics[6]);
+		map.put("maximum", metrics[7]);
+		map.put("s_d", metrics[8]);
+		return map;
 	}
 
 	private String getDefaultQuery(int numberOfBins, boolean widthOfBins) {
@@ -147,9 +151,9 @@ public class LMeasure {
 	 * @return
 	 */
 	public String toJSON() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper()
-            .enable(SerializationFeature.INDENT_OUTPUT);
+		ObjectMapper mapper = new ObjectMapper()
+				.enable(SerializationFeature.INDENT_OUTPUT);
 		return mapper.writeValueAsString(measureMap);
-    }
+	}
 
 }
