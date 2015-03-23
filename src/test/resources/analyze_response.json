@@ -74,11 +74,11 @@
   "Depth" : {
     "compartments_considered" : "30",
     "compartments_discarded" : "0",
-    "minimum" : "7.12001",
-    "maximum" : "7.12001",
-    "total_sum" : "7.12001",
+    "minimum" : "7.11",
+    "maximum" : "7.11",
+    "total_sum" : "7.11",
     "s_d" : "0",
-    "average" : "7.12001"
+    "average" : "7.11"
   },
   "TerminalSegment" : {
     "compartments_considered" : "29",
@@ -365,7 +365,7 @@
     "minimum" : "1.27575",
     "maximum" : "1.27575",
     "total_sum" : "2.5515",
-    "s_d" : "4.04121e-014",
+    "s_d" : "4.04121e-14",
     "average" : "1.27575"
   },
   "EucDistance" : {
