@@ -20,8 +20,8 @@
 	</p>
     <input type="hidden" name="portable" value="false"/>
 
-    <input type="submit" value="View in 3D" />
-    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
+    <input type="submit" value="View in 3D" onclick="this.form.action='/swc/api/view';"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);this.form.action='/swc/api/view';"/>
     <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
     <input type="submit" value="Analyze" onclick="this.form.action='/swc/api/analyze';"/>
     <input type="reset" value="Reset">
@@ -44,8 +44,8 @@
 	
     <input type="hidden" name="portable" value="false"/>
 
-    <input type="submit" value="View in 3D" />
-    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
+    <input type="submit" value="View in 3D" onclick="this.form.action='/swc/api/view';"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);this.form.action='/swc/api/view';"/>
     <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
      <input type="submit" value="Analyze" onclick="this.form.action='/swc/api/analyze';"/>
     <input type="reset" value="Reset">
@@ -68,8 +68,8 @@
 		(Only for Analyze) Number of bins <input type="radio" name="typeOfBins" value="number" checked="checked"> or width of bins <input type="radio" name="typeOfBins" value="width">
 	</p>
 
-    <input type="submit" value="View in 3D" />
-    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);"/>
+    <input type="submit" value="View in 3D" onclick="this.form.action='/swc/api/view';"/>
+    <input type="submit" value="View in 3D - portable" onclick="setPortable(this.form);this.form.action='/swc/api/view';"/>
     <input type="submit" value="Generate Thumbnail" onclick="this.form.action='/swc/api/thumb';"/>
      <input type="submit" value="Analyze" onclick="this.form.action='/swc/api/analyze';"/>
     <input type="reset" value="Reset">
